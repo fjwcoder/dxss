@@ -49,29 +49,6 @@ use think\cache\driver\Redis;
 // | start wxapp in 18.1.22
 // +----------------------------------------------------------------------
 
-//workerman 推送数据
-// $id为空则推送给全部用户
-
-function socketPush($id='', $content){
-    $request = request();
-    // 推送的url地址，使用自己的服务器地址
-    $push_api_url = $request->domain().":2121/";
-    $post_data = array(
-    "type" => "publish",
-    "content" => $content,
-    "to" => $id, 
-    );
-    $ch = curl_init ();
-    curl_setopt ( $ch, CURLOPT_URL, $push_api_url );
-    curl_setopt ( $ch, CURLOPT_POST, 1 );
-    curl_setopt ( $ch, CURLOPT_HEADER, 0 );
-    curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
-    curl_setopt ( $ch, CURLOPT_POSTFIELDS, $post_data );
-    curl_setopt ($ch, CURLOPT_HTTPHEADER, array("Expect:"));
-    $return = curl_exec ( $ch );
-    curl_close ( $ch );
-    var_export($return);
-}
 // 设置用户数据
 function setUserData($third_session, $data){ // $data 包括：level score ticket
     if(empty($third_session)){
