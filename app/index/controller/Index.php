@@ -13,8 +13,7 @@ class Index extends controller
     public function index(){
 
 
-        $res = Db::name('wechat_config') -> select();
-        dump($res);
+        return $this->fetch();
         
 
     }
