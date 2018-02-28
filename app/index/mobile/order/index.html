@@ -1,0 +1,31 @@
+<{extend name="./public/index"/}>
+<{block name="content"}>
+<nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top">
+  <!-- Brand -->
+  <a class="navbar-brand" onclick="goBack();" href="#">
+      <span class="fa fa-angle-left fa-lg"></span>
+  </a>
+
+  <!-- Links -->
+  <ul class="navbar-nav" style="flex-direction: row; width: 80%; display:table; text-align: center;">
+    <!-- Dropdown -->
+    <li class="nav-item dropdown" >
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" style="width: 75%;">
+        全部订单
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Link 1</a>
+        <a class="dropdown-item" href="#">Link 2</a>
+        <a class="dropdown-item" href="#">Link 3</a>
+        <a class="dropdown-item" href="#">Link 1</a>
+        <a class="dropdown-item" href="#">Link 2</a>
+      </div>
+    </li>
+  </ul>
+</nav>
+<script>
+    function goBack(){
+        alert('返回');
+    }
+</script>
+<{/block}>

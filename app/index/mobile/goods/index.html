@@ -1,0 +1,102 @@
+<{extend name="./public/index"/}>
+<{block name="content"}>
+
+<style>
+  .goods-nav-tabs .nav-item{width: 33.33%; float: left;}
+  .goods-nav-tabs .nav-item a{color: #8e8e8e!important; }
+  .goods-nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{border-color: #fff #fff #009100 #fff;}
+  .navbar{padding: 0.313rem 1rem;}
+  .goods-tab-pane{padding: 0;}
+  .goods-foot-navbar{ padding: 0; }
+  .goods-foot-navbar .navbar-nav .nav-link{float: left; height: 50px; padding: 0; line-height: 50px;}
+
+</style>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs goods-nav-tabs fixed-top" role="tablist" style="flex-direction: row; width: 100%; display: table; text-align: center; background: #fff;">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#goods">商品</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#detail">详情</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#comment">评价</a>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content" style="padding-top: 42px;">
+
+  <!--商品展示-->
+  <div id="goods" class="container goods-tab-pane tab-pane active">
+    <!--banner区-->
+
+    <div class="swiper-container " style="width: 100%;" >
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="http://static.runoob.com/images/mix/img_fjords_wide.jpg">
+            </div>
+            <div class="swiper-slide">
+                <img src="http://static.runoob.com/images/mix/img_nature_wide.jpg">
+            </div>
+            <div class="swiper-slide">
+                <img src="http://static.runoob.com/images/mix/img_mountains_wide.jpg">
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+  </div>
+    
+  
+  <!--详情-->
+  <div id="detail" class="container goods-tab-pane tab-pane fade"><br>
+    <img src="http://static.runoob.com/images/mix/img_nature_wide.jpg">
+  </div>
+  <!--评价-->
+  <div id="comment" class="container goods-tab-pane tab-pane fade"><br>
+    <img src="http://static.runoob.com/images/mix/img_mountains_wide.jpg">
+  </div>
+</div>
+
+<style>
+  .fa{margin-top: 8px;}
+</style>
+
+<!--底部-->
+<nav class="navbar goods-foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
+  <!--强制横向排列 竖向是：column-->
+  <ul class="navbar-nav" style="flex-direction: row; width: 100%; display:table; text-align: center;">
+      <li class="nav-item" >
+      <a class="nav-link " style="width: 15%;" href="javascript:void(0)">
+          <span class="fa fa-angle-left fa-2x"></span>
+      </a>
+      </li>
+      <li class="nav-item" >
+      <a class="nav-link" style="width: 20%;" href="javascript:void(0)">
+          <span class="fa fa-truck fa-lg"></span>
+      </a>
+      </li>
+      <li class="nav-item" >
+      <a class="nav-link" style="width: 20%;" href="javascript:void(0)">
+          <span class="fa fa-user fa-lg"></span>
+          
+      </a>
+      </li>
+      <li class="nav-item" >
+      <a class="nav-link " href="javascript:void(0)" style="width: 45%; background: #009100; color:#fff; " >
+          立即购买
+      </a>
+      </li>
+  </ul>
+</nav>
+
+<script>
+  var mySwiper = new Swiper ('.swiper-container', {
+      autoplay : 3000,
+      loop: true,
+      pagination: '.swiper-pagination',
+  });
+  var swiper_width = window.screen.width;
+  $('.swiper-wrapper .swiper-slide img').css({"height":swiper_width, "width": swiper_width});
+</script>
+<{/block}>

@@ -1,6 +1,16 @@
 <?php
 /* 前后端通信相关的配置,注释只允许使用多行方式 */
 return [
+    // auth配置
+    'auth'  => [
+        'auth_on'           => 1, // 权限开关
+        'auth_type'         => 1, // 认证方式，1为实时认证；2为登录认证。
+
+        'auth_group'        => 'admin_group', // 用户组数据不带前缀表名
+        'auth_group_access' => 'admin_group_access', // 用户-用户组关系不带前缀表
+        'auth_rule'         => 'admin_auth', // 权限规则不带前缀表
+        'auth_user'         => 'admin_member', // 用户信息不带前缀表
+    ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
     'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
