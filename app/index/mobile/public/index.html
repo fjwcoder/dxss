@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ch">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- 新 Bootstrap4 核心 CSS 文件 -->
+        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+        <style>
+            .navbar{padding: 0.313rem 1rem;}
+            .navbar .navbar-nav .nav-link{width: 33.33%; float: left; }
+        </style>
+        <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <!-- 顶部搜索 -->
+        <!-- 判断是否显示搜索页面：在网站首页、分类搜索页 才会显示-->
+        <{if request()->module()=="index" and request()->controller()=="Index" and request()->action()=="index" }>
+            <nav class="navbar head-navbar navbar-expand-sm bg-light navbar-light fixed-top" style="background-color: transparent!important;">
+                <form class="form-inline" style="width: 100%;" method="post" role="form" action="<{#}>">
+                    <a class="navbar-brand" href="#" style="color: #28a745;">Logo</a>
+                    <input class="form-control" type="text" placeholder="Search" style="width: 80%; border-radius: 20px; padding: .25rem .75rem; border: 0;">
+                    <!-- <button class="btn btn-success" type="button" style="margin-left: 1rem;">Q</button> -->
+                </form>
+            </nav>
+        <{/if}>
+
+        <div class="index-center-container container-fluid" style="height: 1000px;padding: 0;overflow:scroll">
+            <{block name="content"}>
+                内容
+            <{/block}>
+        </div>
+        <!-- 底部导航栏 -->
+        <nav class="navbar foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
+            <!--强制横向排列 竖向是：column-->
+            <ul class="navbar-nav" style="flex-direction: row; width: 100%; 
+            display:table; text-align: center;">
+                <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)">
+                    首页
+                </a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)">
+                    分类
+                </a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)">
+                    我的
+                </a>
+                </li>
+            </ul>
+        </nav>
+    </body>
+    
+    
+    <!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+    
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+</html>

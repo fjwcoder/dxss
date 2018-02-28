@@ -1,51 +1,41 @@
-<!DOCTYPE html>
-<html lang="ch">
-    <head>
-        <title></title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- 新 Bootstrap4 核心 CSS 文件 -->
-        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-        <style>
-            .index-head-container{
-                height: 100px; background: blue;}
-            .index-center-container{height: 1000px; background: green;}
-            .index-foot-container{position: fixed;
-                bottom: 0; height: 65px; background: red;}
-            
-        </style>
-    </head>
-    <body>
-        
-        <div class="index-head-container container-fluid" >
-            
+<{extend name="./public/index"/}>
+<{block name="content"}>
+<div id="demo" class="carousel slide" data-ride="carousel">
+    <style>
+        .carousel-indicators li{width: 10px!important;}
+    .carousel-control-prev, .carousel-control-next{top: 42px;}
+    </style>
+    <!-- 指示符 -->
+     <ul class="carousel-indicators">
+        <li data-target="#demo" data-slide-to="0" class="active"></li>
+        <li data-target="#demo" data-slide-to="1"></li>
+        <li data-target="#demo" data-slide-to="2"></li>
+      </ul>
+
+      <!-- 轮播图片 -->
+     <div class="carousel-inner" style="height: 192px">
+        <div class="carousel-item active">
+          <img src="http://static.runoob.com/images/mix/img_fjords_wide.jpg">
         </div>
-        <div class="index-center-container container-fluid" >
-            <{block name="content"}>
-                内容
-            <{/block}>
+        <div class="carousel-item">
+          <img src="http://static.runoob.com/images/mix/img_nature_wide.jpg">
         </div>
-        
-        <!--<div class="index-foot-container container-fluid" >
-            
-        </div>-->
-        <nav class="navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
-            <ul class="navbar-nav" style="flex-direction: row"><!--强制横向排列 竖向是：column-->
-                <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">Link</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">Link</a>
-                </li>
-            </ul>
-        </nav>
-    </body>
-    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+        <div class="carousel-item">
+          <img src="http://static.runoob.com/images/mix/img_mountains_wide.jpg">
+        </div>
+      </div>
+
+      <!-- 左右切换按钮 -->
     
-    <!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
-    <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
-    
-    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
-    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-</html>
+     <a class="carousel-control-prev" href="#demo" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </a>
+      <a class="carousel-control-next" href="#demo" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </a>
+      
+</div>
+
+
+
+<{/block}>
