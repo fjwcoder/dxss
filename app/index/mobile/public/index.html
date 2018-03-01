@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css">
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <style>
+            .top-navbar{background-color: #fff!important;}
             .container-fluid{padding: 0;}
             .show{display: block!important;}
             .hidden{display: none!important;}
@@ -42,7 +43,7 @@
             <{/block}>
         </div>
         <!-- 底部导航栏 -->
-        <{if request()->controller() != "Goods" }>
+        <{if $footer }>
         <nav class="navbar foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
             <!--强制横向排列 竖向是：column-->
             <ul class="navbar-nav" style="flex-direction: row; width: 100%; 

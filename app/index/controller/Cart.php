@@ -9,13 +9,18 @@ use think\Db;
 use think\Request;
 use think\cache\driver\Redis;
 
-class Goods extends controller
+class Cart extends controller
 {
     public function index(){
 
+        $this->assign('cart', ['id'=>1]);
         $this->assign('footer', false);
         return $this->fetch();
         
     }
+
+
+
+    
 
 }

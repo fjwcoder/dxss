@@ -1,57 +1,80 @@
 <{extend name="./public/index"/}>
 <{block name="content"}>
+<style>
+  .order-card{ background-color: #fff; margin-top: 0.6rem;}
+  .order-card-item{height: 35.19px; width: 100%; padding: 0.4rem 0.8rem; font-size: 14px;}
+  .order-card-content{height: 70.39px; width: 100%; background-color: #f8f9fa; overflow: hidden;}
+  .order-card-bottom{border-top: 1px solid #f0f0f0;}
+  .order-shop-logo{color: #8e8e8e;}
+  .order-container{height: 100%; padding-top: 50px; background-color: #f0f0f0;}
+  .fa-trash-o{float: right; margin-top: 0.3rem; color: #8e8e8e;}
+  .order-card-content img{height: 100%; float: left; }
+  .order-card-content .content{padding-left: 1rem; overflow: hidden; float: left; width: 80%; margin-top: 3%; height: 70%;}
+</style>
 
-<nav class="navbar order-navbar navbar-expand-sm bg-light navbar-light fixed-top" >
+<nav class="navbar order-navbar  top-navbar navbar-expand-sm bg-light navbar-light fixed-top" onclick="navClick();" >
   <!-- Brand -->
-  <a class="navbar-brand" href="#">
+  <a class="navbar-brand" href="javascript: history.go(-1);">
       <span class="fa fa-angle-left fa-lg"></span>
   </a>
   <!-- Links -->
-  <ul class="navbar-nav" style="flex-direction: row; width: 80%; display:table; text-align: center;">
+  <ul class="navbar-nav" style="flex-direction: row; width: 90%; display:table; text-align: center;">
     <!-- Dropdown -->
     <li class="nav-item dropdown" >
-      <a class="nav-link dropdown-toggle"  href="#" id="navbardrop" data-toggle="dropdown" style="width: 75%;">
+      <a class="nav-link dropdown-toggle" onclick="navClick();" href="#" id="navbardrop" data-toggle="dropdown" style="width: 90%;">
         全部订单
       </a>
       <div class="dropdown-menu order-dropdown-menu">
-        <a class="dropdown-item" href="#">待付款</a>
-        <a class="dropdown-item" href="#">待收货</a>
-        <!-- <a class="dropdown-item" href="#">待评价</a> -->
-        <a class="dropdown-item" href="#">已完成</a>
-        <a class="dropdown-item" href="#">已取消</a>
+        <a class="dropdown-item show" href="/index/order/index/type/1">待付款</a>
+        <a class="dropdown-item show" href="/index/order/index/type/2">待收货</a>
+        <a class="dropdown-item hidden" href="/index/order/index/type/3">待评价</a> 
+        <a class="dropdown-item show" href="/index/order/index/type/4">已完成</a>
+        <a class="dropdown-item show" href="/index/order/index/type/5">已取消</a>
       </div>
-    </li>
-    <li id="search-box" class="nav-item" style="float: right; padding: 0.5rem 0;">
-        <span class="fa fa-search"></span>
     </li>
   </ul>
 </nav>
+<!--search btn-->
+<div id="search-box" class="show" style="position: fixed; top: 0; right: 0; z-index: 1050; padding: 0.8rem 1rem  0.8em 3rem;">
+  <span class="fa fa-search fa-lg"></span>
+</div>
 
-<style>
-  .order-card{height: 176px; background-color: #fff; margin-top: 0.6rem;}
-  .order-card-item{height: 20%; width: 100%; padding: 0.4rem 0.8rem; font-size: 14px;}
-  .order-card-content{height: 40%; width: 100%; background-color: #f8f9fa;}
-  .order-card-bottom{border-top: 1px solid #f0f0f0;}
-  .order-shop-logo{color: #8e8e8e;}
-  .fa-trash-o{float: right; margin-top: 0.3rem; color: #8e8e8e;}
-</style>
+
 <!-- 订单列表 -->
-<div class="container-fluid order-container" style="height: 100%; padding-top: 50px; background-color: #f0f0f0;">
-    <div class="order-card container-fluid">
-      <div class="order-card-item">
-        <span class="order-shop-logo">DXSS</span> 顶鲜蔬蔬自营商城 >
-        <span class="fa fa-trash-o fa-lg"></span>
-      </div>
-      <div class="order-card-content order-card-item">
+<div class="container-fluid order-container">
 
-      </div>
-      <div class="order-card-item">
+    <{if empty($order)}>
+        <div class="list-empty-box container-fluid" style="height: 300px; padding-top: 80px; color: #8e8e8e; background-color: #f0f0f0; text-align: center;">
+            <span class="fa fa-file-text-o fa-3x"></span><br><br>
+            您还没有相关订单
+        </div>
+    <{else}>
+        <div class="order-card container-fluid">
+          <div class="order-card-item">
+            <span class="order-shop-logo">DXSS</span> 顶鲜蔬蔬自营商城 >
+            <span class="fa fa-trash-o fa-lg"></span>
+          </div>
+          <div class="order-card-content order-card-item">
+            <img src="http://img11.360buyimg.com/n1/s450x450_jfs/t15700/288/1962206735/96329/ef344d13/5a694887Nb6fcff29.jpg"/>
+            <div class="content">
+              全球销量最多的车子就是卡罗拉
+            </div>
+          </div>
 
-      </div>
-      <div class="order-card-item order-card-bottom">
+          <div class="order-card-item" style="text-align:right;">
+            共 <span style="font-size: 18px; font-weight: 500;">2</span> 种商品
+            &nbsp;&nbsp;&nbsp;总重：<span style="font-size: 18px; font-weight: 500;">5.67</span>kg
+            &nbsp;&nbsp;&nbsp;付款：<span style="font-size: 18px; font-weight: 500;">¥288.00</span>
+          </div>
+          <div class="order-card-item order-card-bottom">
 
-      </div>
-    </div>
+          </div>
+        </div>
+        
+    <{/if}>
+
+    
+
 
     
     
@@ -60,17 +83,17 @@
 
 
 <script>
-    // $('.order-container').click(function(){
-    //     $('#search-box').removeClass('hidden').addClass('show');
-    // });
+    $('.order-container').click(function(){
+        $('#search-box').removeClass('hidden').addClass('show');
+    });
 
-    // function navClick(){
-    //   if($('.order-dropdown-menu').hasClass('show')){ // 打开了
-    //     $('#search-box').removeClass('hidden').addClass('show');
-    //   }else{ //关闭了
-    //     $('#search-box').removeClass('show').addClass('hidden');
-    //   }
-    // }
+    function navClick(){
+      if($('.order-dropdown-menu').hasClass('show')){ // 打开了
+        $('#search-box').removeClass('hidden').addClass('show');
+      }else{ //关闭
+        $('#search-box').removeClass('show').addClass('hidden');
+      }
+    }
 
 
 

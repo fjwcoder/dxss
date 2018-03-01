@@ -1,0 +1,59 @@
+<{extend name="./public/index"/}>
+<{block name="content"}>
+<style>
+  .order-detail-container{height: 1000px; padding-top: 50px; background-color: #f0f0f0;}
+  .order-detail-navbar .navbar-nav .nav-link{width: 33.33%; float: left; }
+</style>
+
+<nav class="navbar  top-navbar navbar-expand-sm bg-light navbar-light fixed-top" onclick="navClick();" >
+
+  <a class="navbar-brand" href="javascript: history.go(-1);">
+      <span class="fa fa-angle-left fa-lg"></span>
+  </a>
+
+  <ul class="navbar-nav" style="flex-direction: row; width: 90%; display:table; text-align: center;">
+    <li class="nav-item " >
+      <a class="nav-link " href="javascript: void(0);" style="width: 90%;">
+        订单详情
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- 订单列表 -->
+<div class="container-fluid order-detail-container" >
+
+
+
+    
+    
+
+</div>
+
+<nav class="navbar order-detail-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
+    <!--强制横向排列 竖向是：column-->
+    <ul class="navbar-nav" style="flex-direction: row; width: 100%;  display:table; text-align: center;">
+        <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0)">
+            删除订单
+        </a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0)">
+            删除订单
+        </a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0)">
+            删除订单
+        </a>
+        </li>
+    </ul>
+</nav>
+<script>
+
+
+
+
+</script>
+<{/block}>

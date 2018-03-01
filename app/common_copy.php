@@ -46,7 +46,52 @@ use think\cache\driver\Redis;
 // |
 // |
 // +----------------------------------------------------------------------
+// | start wxapp in 18.1.22
+// +----------------------------------------------------------------------
 
+// 设置用户数据
+function setUserData($third_session, $data){ // $data 包括：level score ticket
+    if(empty($third_session)){
+        return false;
+    }
+    $redis = new Redis();
+    $open_arr = $redis->get($third_session);
+    $table = getDataTable($open_arr['province']);
+    $update = Db::name($table) -> where(['openid'=>$open_arr['openid']]) -> update($data);
+    if($update){
+
+        $redis->set($third_session.'_data', $data, 7200);
+
+        return true;
+    }else{
+        return false;
+    }
+}
+
+// 获取用户数据 add by fjw in 18.1.27
+function getUserData($third_session){
+    if(empty($third_session)){
+        return [];
+    }
+    $redis = new Redis();
+    $data = $redis->get($third_session.'_data');
+
+    if($data){ // 为空
+        return $data;
+    }else{
+        $open_arr = $redis->get($third_session);
+        
+        $table = getDataTable($open_arr['province']);
+        $data = Db::name($table) -> where(['openid'=>$open_arr['openid']])
+            ->field(['level', 'score', 'ticket', 'nickname', 'avatarurl', 'all_game', 'win_game']) -> find();
+
+        $redis->set($third_session.'_data', $data, 7200);
+        
+        
+        return $data;
+    }
+    
+}
 
 function randomFromDev($len=6)
 {
@@ -69,7 +114,25 @@ function randomFromDev($len=6)
     return $result.time();
 }
 
+function getDataTable($province=''){
+    $separate = getSeparate();
+    if(isset($separate[$province]['data'])){
+        return $separate[$province]['data'];
+    }else{
+        return 'data_common';
+    }
+    
+}
 
+function getLinkTable($province=''){
+    $separate = getSeparate();
+    if(isset($separate[$province]['link'])){
+        return $separate[$province]['link'];
+    }else{
+        return 'link_common';
+    }
+
+}
 
 function getSeparate(){
     if(cache('SEPARATE')){
@@ -83,6 +146,21 @@ function getSeparate(){
 
     return $separate;
 }
+
+function getGlobalConfig(){
+    if(cache('GLOBAL_CONFIG')){
+        $config = cache('GLOBAL_CONFIG');
+    }else{
+        $data = Db::name('web_config') -> field(['name', 'title', 'value']) 
+            -> where(['status'=>1]) -> select();
+        $config = getField($data, 'name');
+        cache('GLOBAL_CONFIG', $config);
+    }
+    return $config;
+}
+// +----------------------------------------------------------------------
+// | end wxapp
+// +----------------------------------------------------------------------
 
 
 
@@ -320,7 +398,7 @@ function ksetcookie($array, $key){
 }
 
 //后台获取cookie
-function dgetcookie($key){
+function kgetcookie($key){
     $cookie = cookie($key);
 
     foreach($cookie as $k=>$v){
@@ -331,25 +409,25 @@ function dgetcookie($key){
 }
 
 function encodeCookie($array, $key){
-    // if(isset($array['level'])){
-    //     switch($array['level']){
-    //         case 1:
-    //             $array['levelname'] = 'FRESHMAN-VIP';
-    //         break;
-    //         case 2:
-    //             $array['levelname'] = 'SOPHOMORE-VIP';
-    //         break;
-    //         case 3:
-    //             $array['levelname'] = 'JUNIOR-VIP';
-    //         break;
-    //         case 4:
-    //             $array['levelname'] = 'SENIOR-VIP';
-    //         break;
-    //         default:
-    //             $array['levelname'] = 'TOP-VIP';
-    //         break;
-    //     }
-    // }
+    if(isset($array['level'])){
+        switch($array['level']){
+            case 1:
+                $array['levelname'] = 'FRESHMAN-VIP';
+            break;
+            case 2:
+                $array['levelname'] = 'SOPHOMORE-VIP';
+            break;
+            case 3:
+                $array['levelname'] = 'JUNIOR-VIP';
+            break;
+            case 4:
+                $array['levelname'] = 'SENIOR-VIP';
+            break;
+            default:
+                $array['levelname'] = 'TOP-VIP';
+            break;
+        }
+    }
     foreach($array as $k=>$v){
         $array[$k] = authCode($v, 'ENCODE', $k);
     }
@@ -371,8 +449,44 @@ function decodeCookie($key){
     
 }
 
+#商城配置文件缓存
+function mallConfig(){
+    if(cache('MALL_CONFIG')){
+        $config = cache('MALL_CONFIG');
+    }else{
+        $config = db('mall_config', [], false) -> where(array('status'=>1)) -> select();
+        $config = getField($config);
+        $config = array_merge(webConfig(), $config);
+        cache('MALL_CONFIG', $config); //缓存注释
+    }
+
+    return $config;
+}
+
+#网站配置文件缓存
+function webConfig($type = 0){
+    if(cache('WEB_CONFIG')){
+        $config = cache('WEB_CONFIG');
+    }else{
+        $config = db('web_config', [], false) -> where(array('status'=>1)) -> select();
+        $config = getField($config);
+        cache('WEB_CONFIG', $config); //缓存注释
+    }
+    return $config;
+}
 
 
+#网站左侧导航栏
+function adminNav(){
+    if(cache('ADMIN_NAV')){
+        $nav = cache('ADMIN_NAV');
+    }else{
+        $nav = db('admin_menu', [], false) -> where(array('status'=>1)) ->select();
+        // cache('ADMIN_NAV', $nav); 缓存注释
+    }
+    $nav = getField($nav, 'id'); 
+    return $nav;
+}
 
 
 #数组处理函数，弥补3.2的getField();
@@ -384,6 +498,63 @@ function getField($array, $field='name'){
     return $result;
 }
 
+#获取数组x深度的值
+function arrayDeepVal($array=array(), $key=0){
+    if(!array_key_exists($key, $array)){
+        $array[$key] = array();
+    }
+    return $array[$key];
+}
+
+
+#获取用户基本信息
+function getUserInfo($table='web_user', $key){
+    if(session('user')){
+        return session('user');
+    }else{
+        $user = db($table, [], false) -> where(array('id'=>$key)) -> find();
+        // session('user', $user); 缓存注释
+        return $user;
+    }
+}
+
+// #updateAll 批量更新: tp5修改的不支持批量更新了，烦人！！！
+// function updateAll($array=array(), $table='', $field='id'){
+//     Db::startTrans();
+
+//     try{
+//         foreach($array as $k=>$v){
+//             $update = Db::table($table) -> where(array($field=>$v[$field])) -> save($v);
+//             if($update <= 0){
+//                 echo '这次失败了';
+//                 Db::rollback();
+//                 return false;
+//                 exit;
+//             }
+//             echo '次数<br>';
+//         }
+//         return dump('全都成功'); exit;
+//         Db::commit();
+        
+//         return true;
+//     }catch(\Exception $e){
+//         Db::rollback();
+//         return false;
+//     }
+
+// }
+
+#获取部门信息
+function getAdminBranch(){
+    $result = db('admin_branch') -> where(array('status'=>1)) -> select();
+    return $result;
+}
+
+//获取等级信息
+function getAdminLevel(){
+    $result = db('admin_level') -> where(array('status'=>1)) -> select();
+    return $result;
+}
 
 // +----------------------------------------------------
 // | 图片上传方法，只支持上传到本地服务器
@@ -418,7 +589,7 @@ function uploadImg($dir='', $param=''){
     }
     return ['status'=>true, 'path'=>$path]; 
 }
-#单图片上传，头像上传(layui)
+#头像上传(layui)
 function uploadHeadImg($dir='', $param = ''){
     $static = DS.'upload'.DS.$dir.DS;
     $upurl = $_SERVER['DOCUMENT_ROOT'].DS.'static'.$static;
@@ -474,9 +645,31 @@ function uploadHeadImg($dir='', $param = ''){
 //     return ['status'=>true, 'path'=>$path]; 
 // }
 
+function getAdminNode($userid){
+    $result = [];
+    $user = getUserInfo('admin_member', $userid);
+    if($user['authority'] == 1){ //针对该用户制定了权限
+        $sql = "select b.* from keep_admin_node a left join keep_admin_menu b on a.menu_id=b.id 
+                where b.status=1 and a.user_id=$userid order by b.sort;";
+        $result = Db::query($sql);
+    }else{
+        if($user['branch'] == 0){ //没有部门，则只查出等级
+            $result = db('admin_menu', [], false) -> where('status=1 and level>='.$user['level']) -> order('sort')-> select();
+        }else{ //存在部门
+            if($user['level'] == 0){ //没有设置等级
+
+            }else{
+                
+            }
+        }
+    }
+
+    return $result;
+}
+
 
 #获取订单号
-function setOrderID(){
+function getOrderID(){
     $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
     $orderSn = $yCode[intval(date('Y')) - 2011] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf('%02d', rand(0, 99));
     return $orderSn;
@@ -497,7 +690,22 @@ function clientIP() {
     return $client_ip; 
 }
 
-
+//获取期数
+function getTerm(){
+    if(cache('TERM')){
+        $temp = cache('TERM');
+        if($temp['begintime']<=time() && $temp['endtime']>time()){
+            $term = cache('TERM');
+        }else{
+            $term = Db::name('term') -> where('begintime<='.time().' and endtime >'.time()) -> find();
+            // cache('TERM', $term); //缓存注释
+        }
+    }else{
+        $term = Db::name('term') -> where('begintime<='.time().' and endtime >'.time()) -> find();
+        // cache('TERM', $term); //缓存注释
+    }
+    return $term;
+}
 
 function wxConfig($param = ''){
     if(cache('WX_CONFIG')){
@@ -512,29 +720,14 @@ function wxConfig($param = ''){
 
 }
 
-#商城配置文件缓存
-function mallConfig(){
-    if(cache('MALL_CONFIG')){
-        $config = cache('MALL_CONFIG');
+function getRegion(){
+    if(cache('REGION')){
+        $region = cache('REGION');
     }else{
-        $config = db('mall_config', [], false) -> where(array('status'=>1)) -> select();
-        $config = getField($config);
-        $config = array_merge(webConfig(), $config);
-        cache('MALL_CONFIG', $config); //缓存注释
+        $region = Db::name('region') -> select();
+        $region = getField($region, 'id');
+        cache('REGION', $region); //缓存注释
     }
-
-    return $config;
+    
+    return $region;
 }
-
-#网站配置文件缓存
-function webConfig($type = 0){
-    if(cache('WEB_CONFIG')){
-        $config = cache('WEB_CONFIG');
-    }else{
-        $config = db('web_config', [], false) -> where(array('status'=>1)) -> select();
-        $config = getField($config);
-        cache('WEB_CONFIG', $config); //缓存注释
-    }
-    return $config;
-}
-

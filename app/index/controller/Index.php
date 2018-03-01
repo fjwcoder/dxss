@@ -14,6 +14,8 @@ class Index extends controller
     public function index(){
 
         if(isMobile()){
+            
+            $this->assign('footer', true);
             return $this->fetch();
         }else{
             return $this->redirect('https://www.baidu.com');

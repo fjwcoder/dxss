@@ -1,0 +1,68 @@
+<{extend name="./public/index"/}>
+<{block name="content"}>
+<style>
+
+    .address-container{margin-top: 50px; border-top: 1px solid #e0e0e0;}
+    .address-foot-navbar .navbar-nav .nav-link{width: 100%; margin: 0 10%;}
+    .address-container .address-add-item{height: 40px; padding: 0.5rem 1rem; border-bottom: 1px solid #e0e0e0;}
+    .address-container .address-add-item input{border: 0; outline:none;}
+    .address-container .address-add-item label{color: #8e8e8e;}
+</style>
+
+<nav class="navbar address-navbar top-navbar navbar-expand-sm bg-light navbar-light fixed-top" onclick="navClick();" >
+
+  <a class="navbar-brand" href="javascript: history.go(-1);">
+      <span class="fa fa-angle-left fa-lg"></span>
+  </a>
+
+  <ul class="navbar-nav" style="flex-direction: row; width: 90%; display:table; text-align: center;">
+    <li class="nav-item " >
+      <a class="nav-link " href="javascript: void(0);" style="width: 90%;">
+        编辑地址
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<form method="post" role="form" action="#">
+    <div class="container-fluid address-container">
+        <div class="address-add-item">
+            <label>收货人：</label><input name="name"/>
+        </div>
+        <div class="address-add-item">
+            <label>联系方式：</label><input name="mobile"/>
+        </div>
+        <div class="address-add-item">
+            <label>所在地区：</label><input name="area"/>
+        </div>
+        <div class="address-add-item">
+            <label>街道：</label><input name="street"/>
+        </div>
+        <div class="address-add-item">
+            <label>小区：</label><input name="community"/>
+        </div>
+        <div class="address-add-item">
+            <label>暂存驿站：</label><input name="station"/>
+        </div>
+        
+        <!--标签暂时不开放-->
+        <!--<div class="address-add-item">
+            <label>标签：</label><input placeholder="街道、楼牌号等"/>
+        </div>-->
+        
+    </div>
+
+    <nav class="navbar address-foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
+        <!--强制横向排列 竖向是：column-->
+        <ul class="navbar-nav" style="flex-direction: row; width: 85%;  display:table; text-align: center;">
+            <li class="nav-item">
+            <a class="nav-link" href="/index/address/add" style="background: #009100; color: #fff;">
+                <span class="fa fa-save "></span>&nbsp;&nbsp;保存
+            </a>
+            </li>
+
+        </ul>
+    </nav>
+</form>
+
+<{/block}>
