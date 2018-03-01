@@ -1,13 +1,27 @@
 <{extend name="./public/index"/}>
 <{block name="content"}>
 <style>
-  .order-detail-container{height: 1000px; padding-top: 50px; background-color: #f0f0f0;}
-  .order-detail-navbar .navbar-nav .nav-link{width: 33.33%; float: left; }
+    .order-detail-container{height: 1000px; padding-top: 50px; background-color: #f0f0f0;}
+    .order-detail-navbar .navbar-nav .nav-link{width: 33.33%; float: left; }
+    .goods-foot-navbar{ padding: 0; }
+    .goods-foot-navbar .navbar-nav .nav-link{float: left; height: 50px; padding: 0; line-height: 50px;}
+    /* 收货地址选择  折叠 begin */
+    div.card{border: 0; margin-top: 0.5rem;}
+    div.card .card-header{background-color: #fff; }
+    div.card a{color: #212529; }
+    .address-station{border: 1px solid #6ad4c9; color: #6ad4c9; padding: 0 0.5rem; 
+        font-size: 0.95rem; border-radius: 5px; margin-right: 0.5rem;}
+    .user-address{font-size: 13px;}
+    /* end */
+    .order-card-item{height: 35.19px; width: 100%; padding: 0.4rem 0.8rem; font-size: 14px; background-color: #fff;}
+    .order-card-content{height: 70.39px; width: 100%; background-color: #f8f9fa; overflow: hidden;}
+    .order-card-content img{height: 100%; float: left; }
+    .order-card-content .content{padding-left: 1rem; overflow: hidden; float: left; width: 80%; margin-top: 3%; height: 70%;}
 </style>
 
 <nav class="navbar  top-navbar navbar-expand-sm bg-light navbar-light fixed-top" onclick="navClick();" >
 
-  <a class="navbar-brand" href="javascript: history.go(-1);">
+  <a class="navbar-brand" href="javascript: if(confirm('确定要离开吗？'))history.go(-1);">
       <span class="fa fa-angle-left fa-lg"></span>
   </a>
 
@@ -20,38 +34,103 @@
   </ul>
 </nav>
 
-<!-- 订单列表 -->
-<div class="container-fluid order-detail-container" >
+<div id="accordion" class="container-fluid order-detail-container " >
+    <!-- 收货地址折叠 -->
+    <div class="card">
+        <div class="card-header">
+            
+            <a onclick="clickDefaultAddress();" class="card-link second-font-color" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                <span class="pull-right">
+                    <span id="address-angle" class="fa fa-angle-right fa-fw fa-lg" style="margin-top: 1rem;"></span>
+                </span>
+                冯建文&nbsp;&nbsp;18706681210
+                <span class="address-detail address-station pull-right" >东城顶鲜驿站</span>
+                <br>
+                <span class="user-address second-font-color">
+                    <span class="fa fa-map-marker fa-fw"></span>
+                    山东潍坊奎文区新华路东城新海枫景
+                </span>
+            </a>
+        </div>
+        <div id="collapseOne" class="collapse ">
+            <div class="card-body">
+            Lorem ipsum..
+            </div>
+        </div>
+    </div>
 
-
-
+    <div class="order-card-item">
+        <span class="order-shop-logo second-font-color">DXSS</span> 
+        <span class="pull-right second-font-color">
+            <span class="fa fa-rmb fa-fw"></span>在线支付
+        </span>
+    </div>
+    <div class="order-card-content order-card-item">
+        <img src="http://img11.360buyimg.com/n1/s450x450_jfs/t15700/288/1962206735/96329/ef344d13/5a694887Nb6fcff29.jpg"/>
+        <div class="content">全球销量最多的车子就是卡罗拉</div>
+    </div>
+    <div class="order-card-item">
+        <span class="second-font-color">顶鲜配送</span> 
+        <span class="pull-right">
+            <span class="fa fa-clock-o fa-fw " style="color:#6ad4c9"></span>
+            03-04 
+            <span class="second-font-color">[周五]</span> 14:00-18:00
+        </span>
+    </div>
     
+    <div class="order-card-item" style="margin-top: 0.5rem;">
+        <span class="second-font-color">商品重量：</span> 
+        <span class="pull-right">5市斤</span>
+    </div>
+    <div class="order-card-item">
+        <span class="second-font-color">运费：</span> 
+        <a href="javascript: void(0);" class="hidden" style="color: #8e8e8e; font-size: 12px;">(运费规则?)</a>
+        <span class="pull-right">¥ 5</span>
+    </div>
+    <div class="order-card-item">
+        <span class="second-font-color">运费优惠：</span> 
+        <span class="pull-right">- ¥ 5</span>
+    </div>
+    <div class="order-card-item">
+        <span class="second-font-color">商品金额：</span> 
+        <span class="pull-right">
+                ¥ 5
+        </span>
+    </div>
     
 
 </div>
 
-<nav class="navbar order-detail-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
+<!--底部-->
+<nav class="navbar goods-foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
     <!--强制横向排列 竖向是：column-->
-    <ul class="navbar-nav" style="flex-direction: row; width: 100%;  display:table; text-align: center;">
-        <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0)">
-            删除订单
+    <ul class="navbar-nav" style="flex-direction: row; width: 100%; display:table; text-align: center;">
+  
+        <li class="nav-item" >
+        <a class="nav-link" style="width: 60%; color: #212529;" href="javascript:void(0)" >
+            付款金额：¥ <span id="all-money" style="font-size: 20px; font-weight: 500;">5.00</span>
+            
         </a>
         </li>
-        <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0)">
-            删除订单
-        </a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0)">
-            删除订单
+        <li class="nav-item" >
+        <a class="nav-link " onclick="orderSubmit();" href="javascript:void(0)" style="width: 40%; background: #009100; color:#fff; " >
+            提交订单
         </a>
         </li>
     </ul>
-</nav>
+  </nav>
 <script>
+    function orderSubmit(){
+        console.log('提交订单');
+    }
 
+    function clickDefaultAddress(){
+        if($('#collapseOne').hasClass('show')){
+            $('#address-angle').removeClass('fa-angle-down').addClass('fa-angle-right');
+        }else{
+            $('#address-angle').removeClass('fa-angle-right').addClass('fa-angle-down');
+        }
+    }
 
 
 
