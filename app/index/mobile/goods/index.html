@@ -31,7 +31,7 @@
   <div id="goods" class="container goods-tab-pane tab-pane active">
     <!--banner区-->
 
-    <div class="swiper-container " style="width: 100%;" >
+    <div class="swiper-container goods-swiper-container" style="width: 100%;" >
         <div class="swiper-wrapper">
             <div class="swiper-slide">
                 <img src="http://static.runoob.com/images/mix/img_fjords_wide.jpg">
@@ -91,10 +91,15 @@
 </nav>
 
 <script>
-  var mySwiper = new Swiper ('.swiper-container', {
-      autoplay : 3000,
+  var mySwiper = new Swiper ('.goods-swiper-container', {
+
+      autoplay: {
+        delay: 5000,
+        stopOnLastSlide: false,
+        disableOnInteraction: true,
+      },
       loop: true,
-      pagination: '.swiper-pagination',
+      // pagination: '.swiper-pagination',
   });
   var swiper_width = window.screen.width;
   $('.swiper-wrapper .swiper-slide img').css({"height":swiper_width, "width": swiper_width});

@@ -1,41 +1,41 @@
 <{extend name="./public/index"/}>
 <{block name="content"}>
-<div id="demo" class="carousel slide" data-ride="carousel">
-    <style>
-        .carousel-indicators li{width: 10px!important;}
-    .carousel-control-prev, .carousel-control-next{top: 42px;}
-    </style>
-    <!-- 指示符 -->
-     <ul class="carousel-indicators">
-        <li data-target="#demo" data-slide-to="0" class="active"></li>
-        <li data-target="#demo" data-slide-to="1"></li>
-        <li data-target="#demo" data-slide-to="2"></li>
-      </ul>
-
-      <!-- 轮播图片 -->
-     <div class="carousel-inner" style="height: 192px">
-        <div class="carousel-item active">
-          <img src="http://static.runoob.com/images/mix/img_fjords_wide.jpg">
+<style>
+    .index-swiper-container .swiper-wrapper .swiper-slide img{  height: 192px; }
+</style>
+<div class="swiper-container index-swiper-container " style="width: 100%;" >
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <img src="http://static.runoob.com/images/mix/img_fjords_wide.jpg">
         </div>
-        <div class="carousel-item">
-          <img src="http://static.runoob.com/images/mix/img_nature_wide.jpg">
+        <div class="swiper-slide">
+            <img src="http://static.runoob.com/images/mix/img_nature_wide.jpg">
         </div>
-        <div class="carousel-item">
-          <img src="http://static.runoob.com/images/mix/img_mountains_wide.jpg">
+        <div class="swiper-slide">
+            <img src="http://static.runoob.com/images/mix/img_mountains_wide.jpg">
         </div>
-      </div>
-
-      <!-- 左右切换按钮 -->
-    
-     <a class="carousel-control-prev" href="#demo" data-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-      </a>
-      <a class="carousel-control-next" href="#demo" data-slide="next">
-        <span class="carousel-control-next-icon"></span>
-      </a>
-      
+    </div>
+    <div class="swiper-pagination"></div>
 </div>
 
 
 
+
+
+
+
+
+<script>
+var mySwiper = new Swiper ('.index-swiper-container', {
+
+    autoplay: {
+        delay: 5000,
+        stopOnLastSlide: false,
+        disableOnInteraction: true,
+    },
+    loop: true,
+    // pagination: '.swiper-pagination',
+});
+
+</script>
 <{/block}>
