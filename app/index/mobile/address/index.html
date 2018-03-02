@@ -8,10 +8,8 @@
     .address-card-content{height: 93.39px; overflow: hidden;  padding-top: 0.5rem;}
     .address-card-item{height: 35.19px; border-top: 1px solid #e0e0e0; color: #8e8e8e; padding-top: 0.3rem;}
     .address-card-content .address-name{font-size: 17px;}
-    .address-card-content .address-detail{color: #8e8e8e;}
-    .address-card-content .address-station{border: 1px solid #6ad4c9; color: #6ad4c9; padding: 0 0.5rem; 
-        font-size: 0.95rem; border-radius: 5px;}
-    .address-card-item a{color: #8e8e8e; }
+    .address-card-content .address-detail{color: #999;}
+    .address-card-item a{color: #999; }
     .address-card-item .address-controller{float: right; margin-left: 1.5rem;}
 </style>
 
@@ -45,12 +43,12 @@
             <br>
             <span class="address-detail">山东潍坊奎文区&nbsp;&nbsp;新华路&nbsp;&nbsp;东城新海枫景</span>
             <br>
-            <span class="address-detail address-station" >东城顶鲜驿站</span>
+            <span class="address-detail station-tag" >东城顶鲜驿站</span>
           </div>
-          <div class="address-card-item" >
+          <div class="address-card-item " >
             <a href="javascript: void(0);">
                 <!--<span class="fa fa-circle-thin"></span>&nbsp;设为默认-->
-                <span class="fa fa-check-circle" style="color: #009100;"></span>&nbsp;默认地址
+                <span class="fa fa-check-circle" style="color: #19A97B;"></span>&nbsp;默认地址
             </a>
             <a class="address-controller" href="javascript: void(0);">
                 <span class="fa fa-trash-o"></span>&nbsp;删除
@@ -72,7 +70,7 @@
     <!--强制横向排列 竖向是：column-->
     <ul class="navbar-nav" style="flex-direction: row; width: 85%;  display:table; text-align: center;">
         <li class="nav-item">
-        <a class="nav-link" href="/index/address/add" style="background: #009100; color: #fff;">
+        <a class="nav-link main-submit-btn" href="/index/address/add">
             <span class="fa fa-plus "></span>&nbsp;&nbsp;新建地址
         </a>
         </li>

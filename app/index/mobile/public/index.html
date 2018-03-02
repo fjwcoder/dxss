@@ -9,21 +9,44 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css">
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <style>
+            .main-bg-color{background-color: #19A97B;}
+            .second-bg-color{background-color: #6ad4c9;}
+
+
+            .main-font-color{color: #333;}
+            .second-font-color{color: #666;}
+            .third-font-color{color: #999;}
+            select, imput{background: #fff; }
+            label{background-color: #fff; color: #999;}
+
+            .main-bg-font-color{color: #19A97B;}
+            .second-bg-font-color{color: #6ad4c9;}
+            /*设置底部导航栏字的颜色*/
+            .nav-tabs .nav-item .nav-link{color: #666;}/*顶部卡片导航栏*/
+            .navbar .navbar-nav .nav-link{color: #333;}/*底部导航栏*/
+            .main-submit-btn{background-color: #19A97B; color: #fff!important;}
+            .second-submit-btn{background-color: #6ad4c9; color: #fff!important;}
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{border-color: #fff #fff #19A97B #fff;}
+            .station-tag{border: 1px solid #6ad4c9; color: #6ad4c9; padding: 0 0.5rem; 
+                font-size: 0.95rem; border-radius: 5px;}
+            .business-tag{background-color: #19A97B; color: #fff; font-size: 0.9rem; padding: 0.1rem 0.5rem; 
+                border-radius: 15px;}
+            /*以上为公众样式*/
             .top-navbar{background-color: #fff!important;}
             .container-fluid{padding: 0;}
             .show{display: block!important;}
             .hidden{display: none!important;}
             .navbar{padding: 0.313rem 1rem;}
             .navbar .navbar-nav .nav-link{width: 33.33%; float: left; }
-            .second-font-color{color: #8e8e8e;}
+            
         </style>
         <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
         <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
         <!--引入swiper -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.6/css/swiper.min.css">
-        <!-- <script src="__CSS__/plugin/swiper-4.1.6.min.css"></script> -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.6/js/swiper.min.js"></script>
-        <!-- <script src="__JS__/plugin/swiper-4.1.6.min.js"></script> -->
+        <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.6/css/swiper.min.css">-->
+         <script src="__CSS__/plugin/swiper-4.1.6.min.css"></script> 
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.6/js/swiper.min.js"></script>-->
+         <script src="__JS__/plugin/swiper-4.1.6.min.js"></script> 
     </head>
     <body>
         <!-- 顶部搜索 -->
@@ -38,7 +61,7 @@
             </nav>
         <{/if}>
 
-        <div class="index-center-container container-fluid" style="height: 1000px; overflow:scroll">
+        <div class="index-center-container container-fluid" style="height: 1000px; overflow:scroll; padding-bottom: 50px;">
             <{block name="content"}>
                 内容
             <{/block}>

@@ -6,15 +6,15 @@
     }
     .login-nav-tabs .nav-item{width: 50%; float: left;}
     .login-nav-tabs .nav-item a{color: #8e8e8e!important; }
-    .login-nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{border-color: #fff #fff #6ad4c9 #fff;}
+    
     .login-tab-pane span{color: #8e8e8e;}
     .login-tab-pane .login-item{height: 48px; padding: 0.5rem 1rem; border-bottom: 1px solid #e0e0e0; line-height: 36px;}
     .login-item input{border: 0; outline:none; width: 80%;}
-    .login-btn{height: 2.5rem; width: 90%; background-color: #6ad4c9; color: #fff; border: 0; margin: 2rem 0;}
+    .login-btn{height: 2.5rem; width: 90%;  border: 0; margin: 2rem 0;}
 </style>
-<nav class="navbar ；login-navbar top-navbar navbar-expand-sm bg-light navbar-light fixed-top" onclick="navClick();" >
+<nav class="navbar login-navbar top-navbar navbar-expand-sm bg-light navbar-light fixed-top" onclick="navClick();" >
 
-  <a class="navbar-brand" href="javascript: history.go(-1);" style="color: #6ad4c9;">
+  <a class="navbar-brand" href="javascript: history.go(-1); " style="color: #19A97B;">
       <span class="fa fa-circle-o-notch fa-spin"></span>
   </a>
 
@@ -46,7 +46,7 @@
             <div class="login-item">
                 <label>密码：</label><input name="password"/>
             </div>
-            <button class="login-btn">登录</button>
+            <button class="login-btn main-submit-btn">登录</button>
         </form>  
 
         <span class="pull-left " style="margin-left: 5%;">
