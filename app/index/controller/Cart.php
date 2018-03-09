@@ -19,6 +19,11 @@ class Cart extends controller
         
     }
 
+    public function orderPreview(){
+        dump(request()->post());
+        die;
+    }
+
 
 
     
