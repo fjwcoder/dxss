@@ -1,6 +1,6 @@
 <?php
 namespace app\index\controller;
-use app\index\controller\Common;
+// use app\index\controller\Common;
 use app\model\model\Users;
 
 use think\Controller;
@@ -10,7 +10,7 @@ use think\Db;
 use think\Request;
 use think\cache\driver\Redis;
 
-class Index extends Common
+class Index extends controller
 {
     public function index(){
 
