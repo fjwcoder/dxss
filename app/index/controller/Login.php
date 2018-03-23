@@ -14,7 +14,7 @@ class Login extends controller
     public function index(){
 
         $this->assign('address', ['id'=>1]);
-        $this->assign('footer', false);
+        $this->assign('footer', ['status'=>false]);
         return $this->fetch();
         
     }

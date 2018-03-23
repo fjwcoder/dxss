@@ -66,28 +66,32 @@
             <{/block}>
         </div>
         <!-- 底部导航栏 -->
-        <{if $footer }>
+        <{if $footer.status }>
         <nav class="navbar foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
             <!--强制横向排列 竖向是：column-->
             <ul class="navbar-nav" style="flex-direction: row; width: 100%; 
             display:table; text-align: center;">
                 <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
+                <a class="nav-link" id="footer-1" href="javascript:void(0)">
                     首页
                 </a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
+                <a class="nav-link" id="footer-2" href="javascript:void(0)">
                     分类
                 </a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
+                <a class="nav-link" id="footer-3" href="javascript:void(0)">
                     我的
                 </a>
                 </li>
             </ul>
         </nav>
+        <script>
+            var footer_id = <{$footer.id}>;
+            // console.log($('#footer-'+footer_id));
+        </script>
         <{/if}>
     </body>
     

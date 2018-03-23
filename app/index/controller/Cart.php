@@ -14,7 +14,7 @@ class Cart extends controller
     public function index(){
 
         $this->assign('cart', ['id'=>1]);
-        $this->assign('footer', false);
+        $this->assign('footer', ['status'=>false]);
         return $this->fetch();
         
     }

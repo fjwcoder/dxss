@@ -1,6 +1,6 @@
 <?php
 namespace app\index\controller;
-// use app\index\controller\Common;
+
 use app\model\model\Users;
 
 use think\Controller;
@@ -16,7 +16,7 @@ class Index extends controller
 
         if(isMobile()){
             
-            $this->assign('footer', true);
+            $this->assign('footer', ['status'=>true, 'id'=>1]);
             return $this->fetch();
         }else{
             return $this->redirect('https://www.baidu.com');

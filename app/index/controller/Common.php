@@ -22,7 +22,7 @@ class Common extends controller
         //     $gaode = new Gaode();
         //     $gaode->IPLocation();
         // }
-
+        Session::set(Config::get('USER_ID'), 1); // 测试账户
         #是否登录
         if( Session::get(Config::get('USER_ID')) ){
             //登陆后，每次跳转，都设置一下session，保持登录状态

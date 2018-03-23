@@ -14,21 +14,21 @@ class Address extends controller
     public function index(){
 
         $this->assign('address', ['id'=>1]);
-        $this->assign('footer', false);
+        $this->assign('footer', ['status'=>false]);
         return $this->fetch();
         
     }
 
     public function add(){
 
-        $this->assign('footer', false);
+        $this->assign('footer', ['status'=>false]);
         return $this->fetch();
         
     }
 
     public function edit(){
 
-        $this->assign('footer', false);
+        $this->assign('footer', ['status'=>false]);
         return $this->fetch();
         
     }
