@@ -1,7 +1,6 @@
 <?php
 namespace app\index\controller;
 // use app\model\model\Users;
-
 use think\Controller;
 use think\Config;
 use think\Session;

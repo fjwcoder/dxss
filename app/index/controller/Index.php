@@ -1,6 +1,6 @@
 <?php
 namespace app\index\controller;
-// use app\index\controller\Common;
+
 use app\model\model\Users;
 
 use think\Controller;

@@ -1,7 +1,7 @@
 <?php
 namespace app\index\controller;
 // use app\model\model\Users;
-
+use app\index\controller\Common as Common;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -9,7 +9,7 @@ use think\Db;
 use think\Request;
 use think\cache\driver\Redis;
 
-class Order extends controller
+class Order extends Common
 {
     public function index(){
         
