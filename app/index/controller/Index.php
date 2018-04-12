@@ -16,7 +16,8 @@ class Index extends controller
 
         if(isMobile()){
             
-            $this->assign('footer', true);
+            $this->assign('footer', ['status'=>true, 'name'=>'home']);
+            
             return $this->fetch();
         }else{
             return $this->redirect('https://www.baidu.com');

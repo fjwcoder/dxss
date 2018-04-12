@@ -21,7 +21,7 @@
   <ul class="navbar-nav" style="flex-direction: row; width: 80%; display:table; text-align: center;">
     <li class="nav-item " >
       <a class="nav-link " href="javascript: void(0);" style="width: 75%; ">
-        顶鲜登录
+        顶鲜注册
       </a>
     </li>
   </ul>
@@ -29,7 +29,7 @@
 
 <ul class="nav nav-tabs login-nav-tabs " role="tablist" >
   <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#account">账号密码登录</a>
+    <a class="nav-link active" data-toggle="tab" href="#account">注册</a>
   </li>
   <li class="nav-item hidden" >
     <a class="nav-link" data-toggle="tab" href="#mobile">短信验证码登录</a>
@@ -39,22 +39,22 @@
 <div class="tab-content" style="padding-top: 92px; text-align: center;">
     
     <div id="account" class="container login-tab-pane tab-pane active"><br>
-        <form method="post" role="form" action="/index/login/login">
+        <form method="post" role="form" action="/index/regist/regist">
             <div class="login-item">
                 <label>账号：</label><input name="account"/>
             </div>
             <div class="login-item">
                 <label>密码：</label><input name="password"/>
             </div>
-            <button type="submit" class="login-btn main-submit-btn">登录</button>
+            <button type="submit" class="login-btn main-submit-btn">注册</button>
         </form> 
 
         <span class="pull-left " style="margin-left: 5%;">
-            <span class="fa fa-lock fa-fw"></span>忘记密码
+            <span class="fa fa-lock fa-fw"></span>已有账号，登录
         </span>
-        <span class="pull-right" style="margin-right: 5%;">
+        <!-- <span class="pull-right" style="margin-right: 5%;">
             <span class="fa fa-mobile-phone fa-fw"></span>手机快速注册
-        </span>
+        </span> -->
     </div>
     
     

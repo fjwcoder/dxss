@@ -48,6 +48,7 @@ use think\cache\driver\Redis;
 // +----------------------------------------------------------------------
 
 
+
 function randomFromDev($len=6)
 {
     $fp = @fopen('/dev/urandom','rb');
@@ -189,7 +190,14 @@ function httpsPost($url, $data = null){
     return $output;
 }
 
-
+// 是否是手机号码
+function isMobileNumber($phonenumber){
+    if(preg_match("/^1[34578]{1}\d{9}$/",$phonenumber)){  
+        return true; 
+    }else{  
+        return false; 
+    } 
+}
 #https   GET请求处理函数
 function httpsGet($url){
     $oCurl = curl_init();
@@ -311,7 +319,7 @@ function authCode($string, $operation = 'DECODE', $crypt ='', $expiry = 0)
 }
 
 //后台设置cookie
-function ksetcookie($array, $key){
+function dsetcookie($array, $key){
     foreach($array as $k=>$v){
         $array[$k] = authCode($v, 'ENCODE');
     }

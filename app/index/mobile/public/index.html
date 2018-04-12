@@ -30,6 +30,9 @@
                 font-size: 0.95rem; border-radius: 5px;}
             .business-tag{background-color: #19A97B; color: #fff; font-size: 0.9rem; padding: 0.1rem 0.5rem; 
                 border-radius: 15px;}
+            .current-foot-nav{color: #19A97B;}
+            .foot-navbar .navbar-nav .nav-item .nav-link{  padding: 0; height: 40px;}
+            .foot-navbar .navbar-nav .nav-item .nav-link .nav-font{font-size: 14px; }
             /*以上为公众样式*/
             .top-navbar{background-color: #fff!important;}
             .container-fluid{padding: 0;}
@@ -51,7 +54,7 @@
         <!-- 顶部搜索 -->
         <!-- 判断是否显示搜索页面：在网站首页、分类搜索页 才会显示-->
         <{if request()->module()=="index" and request()->controller()=="Index" and request()->action()=="index" }>
-            <nav class="navbar head-navbar navbar-expand-sm bg-light navbar-light fixed-top" style="background-color: transparent!important;">
+            <nav id="nav-head-navbar" class="navbar head-navbar navbar-expand-sm bg-light navbar-light fixed-top" style="background-color: transparent!important;">
                 <form class="form-inline" style="width: 100%;" method="post" role="form" action="<{#}>">
                     <a class="navbar-brand" href="#" style="color: #28a745;">Logo</a>
                     <input class="form-control" type="text" placeholder="Search" style="width: 80%; border-radius: 20px; padding: .25rem .75rem; border: 0;">
@@ -66,28 +69,37 @@
             <{/block}>
         </div>
         <!-- 底部导航栏 -->
-        <{if $footer }>
+        <{if $footer.status }>
         <nav class="navbar foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
             <!--强制横向排列 竖向是：column-->
             <ul class="navbar-nav" style="flex-direction: row; width: 100%; 
             display:table; text-align: center;">
                 <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
-                    首页
+                <a  class="nav-link" href="javascript:void(0)">
+                    <span class="font-nav-link foot-nav-home fa fa-home fa-lg"></span><br>
+                    <span class="font-nav-link foot-nav-home nav-font">首页</span>
+                    
                 </a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
-                    分类
+                <a  class="nav-link" href="javascript:void(0)">
+                    <span class="font-nav-link foot-nav-category fa fa-list-ul fa-lg"></span><br>
+                    <span class="font-nav-link foot-nav-category nav-font">分类</span>
                 </a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
-                    我的
+                <a  class="nav-link" href="javascript:void(0)">
+                    <span class="font-nav-link foot-nav-user fa fa-user fa-lg"></span><br>
+                    <span class="font-nav-link foot-nav-user nav-font">我的</span>
                 </a>
                 </li>
             </ul>
         </nav>
+        <script>
+            var footname = '<{$footer.name}>';
+            $('.foot-nav-link').removeClass('current-foot-nav');
+            $('.foot-nav-'+footname).addClass('current-foot-nav');
+        </script>
         <{/if}>
     </body>
     

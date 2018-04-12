@@ -14,20 +14,20 @@ class Order extends controller
     public function index(){
         
         $this->assign('order', []);
-        $this->assign('footer', false);
+        $this->assign('footer', ['status'=>false]);
         return $this->fetch();
         
     }
 
     public function preview(){
         
-        $this->assign('footer', false);
+        $this->assign('footer', ['status'=>false]);
         return $this->fetch();
     }
 
     public function detail(){
         
-        $this->assign('footer', false);
+        $this->assign('footer', ['status'=>false]);
         return $this->fetch();
     }
 

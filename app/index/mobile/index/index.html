@@ -26,6 +26,21 @@
 
 
 <script>
+
+//========================== start滑动监听 ====================================================
+var winPos = 0;
+$(window).scroll(function(event){
+    currentPos = $(window).scrollTop(); // 当前滑动位置 
+    if(currentPos > winPos){ // 上滑
+        $('#nav-head-navbar').fadeOut();
+    }else{ // 下滑
+        $('#nav-head-navbar').fadeIn();
+    }
+    winPos = currentPos;
+});
+//========================== end滑动监听 ====================================================
+
+
 var mySwiper = new Swiper ('.index-swiper-container', {
 
     autoplay: {
