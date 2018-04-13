@@ -19,9 +19,9 @@
   <li class="nav-item">
     <a class="nav-link" data-toggle="tab" href="#cardOne">详情</a>
   </li>
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link" data-toggle="tab" href="#cardTwo">评价</a>
-  </li>
+  </li> -->
 </ul>
 
 <!-- Tab panes -->
@@ -33,15 +33,11 @@
     <!--banner区-->
     <div class="swiper-container goods-swiper-container" style="width: 100%;" >
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <img src="http://static.runoob.com/images/mix/img_fjords_wide.jpg">
-            </div>
-            <div class="swiper-slide">
-                <img src="http://static.runoob.com/images/mix/img_nature_wide.jpg">
-            </div>
-            <div class="swiper-slide">
-                <img src="http://static.runoob.com/images/mix/img_mountains_wide.jpg">
-            </div>
+            <{volist name="$goods.goods.pics" id="vo"}>
+                <div class="swiper-slide">
+                    <img src="<{$vo.pic}>">
+                </div>
+            <{/volist}>
         </div>
         <div class="swiper-pagination"></div>
     </div>
@@ -58,10 +54,10 @@
     <div  class="goods-card container-fluid">
       <div class="goods-card-item main-font-color">
         <span class="business-tag" >顶鲜直营</span>
-        <span >订花带刺儿的黄瓜</span>
+        <span ><{$goods.goods.name}></span>
       </div>
       <div class="goods-card-content goods-card-item third-font-color" >
-          全球销量最多的车子就是卡罗拉全球销量最多的车子就是卡罗拉全球销量最多的车子
+            <{$goods.goods.sub_name}>
       </div>
 
       <div class="goods-card-item text-right main-bg-font-color " >
@@ -76,7 +72,7 @@
               <a onclick="clickDefaultSpec();" class="card-link second-font-color " data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
                 <span class="third-font-color">已选择</span>
                 <span id="spec-angle" class="fa fa-angle-right fa-fw fa-lg pull-right third-font-color " style="margin: 5px;" ></span>
-                <span class="pull-right main-font-color" >5市斤</span>
+                <span class="pull-right main-font-color" ><{$goods.goods.specs.0.spec}></span>
               </a>
           </div>
           <div id="collapseOne" class="collapse " style="width: 100%; background-color: #fff;">
