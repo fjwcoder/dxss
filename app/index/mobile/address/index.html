@@ -5,10 +5,10 @@
     .address-container{height: 1000px; padding-top: 50px; background-color: #f0f0f0;}
     .address-foot-navbar .navbar-nav .nav-link{width: 100%; margin: 0 10%;}
     .address-card{background-color: #fff; margin-top: 0.6rem; padding: 0 1rem;}
-    .address-card-content{height: 93.39px; overflow: hidden;  padding-top: 0.5rem;}
-    .address-card-item{height: 35.19px; border-top: 1px solid #e0e0e0; color: #8e8e8e; padding-top: 0.3rem;}
+    .address-card-content{min-height: 93.39px; overflow: hidden;  padding-top: 0.5rem;}
+    .address-card-item{min-height: 35.19px; border-top: 1px solid #e0e0e0; color: #8e8e8e; padding-top: 0.3rem;}
     .address-card-content .address-name{font-size: 17px;}
-    .address-card-content .address-detail{color: #999;}
+    .address-card-content .address-detail{color: #999; }
     .address-card-item a{color: #999; }
     .address-card-item .address-controller{float: right; margin-left: 1.5rem;}
 </style>
@@ -37,28 +37,43 @@
             您还没有收货地址
         </div>
     <{else}>
-        <div class="container-fluid address-card">
-          <div class="address-card-content">
-            <span class="address-name">冯建文&nbsp;&nbsp;18706681210</span>
-            <br>
-            <span class="address-detail">山东潍坊奎文区&nbsp;&nbsp;新华路&nbsp;&nbsp;东城新海枫景</span>
-            <br>
-            <span class="address-detail station-tag" >东城顶鲜驿站</span>
-          </div>
-          <div class="address-card-item " >
-            <a href="javascript: void(0);">
-                <!--<span class="fa fa-circle-thin"></span>&nbsp;设为默认-->
-                <span class="fa fa-check-circle" style="color: #19A97B;"></span>&nbsp;默认地址
-            </a>
-            <a class="address-controller" href="javascript: void(0);">
-                <span class="fa fa-trash-o"></span>&nbsp;删除
-            </a>
-            <a class="address-controller" href="/index/address/edit">
-                <span class="fa fa-edit "></span>&nbsp;编辑
-            </a>
-          </div>
-
-        </div>
+        <{volist name="$address" id="vo"}>
+            <div class="container-fluid address-card">
+                <div class="address-card-content">
+                  <span class="address-name"><{$vo.name}>&nbsp;&nbsp;<{$vo.mobile}></span>
+                  <br>
+                  <span class="address-detail"><{$vo.province}>&nbsp;<{$vo.city}>&nbsp;<{$vo.area}>
+                    &nbsp;&nbsp;<{$vo.address}>
+                    
+                  <br>
+                  <span class="address-detail pull-left  " ><{$vo.community}></span>
+                  <span class="address-detail pull-right  station-tag" ><{$vo.station}></span>
+                </div>
+                <div class="address-card-item " >
+                    <{if $vo.type == 1}> 
+                    <a href="javascript: void(0);">
+                        <span class="fa fa-check-circle" style="color: #19A97B;"></span>&nbsp;默认地址
+                    </a>
+                    
+                    <{else}>
+                    <a href="/index/address/setdefaultaddress?id=<{$vo.id}>">
+                        <span class="fa fa-circle-thin"></span>&nbsp;设为默认
+                    </a>
+                    
+                    <{/if}>
+                    
+                    
+                    <a class="address-controller" href="/index/address/deladdress?id=<{$vo.id}>">
+                        <span class="fa fa-trash-o"></span>&nbsp;删除
+                    </a>
+                    <a class="address-controller" href="/index/address/edit?id=<{$vo.id}>">
+                        <span class="fa fa-edit "></span>&nbsp;编辑
+                    </a>
+                </div>
+      
+            </div>
+        <{/volist}>
+        
     <{/if}>
 
     

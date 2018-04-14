@@ -35,20 +35,22 @@
             <label>省市区：</label>
             <!-- 区县 -->
             <select name="area" id="region_area">
+                
                 <{volist name="$area" id="vo"}>
-                    <option value="<{$vo.id}>" ><{$vo.title}></option>
+                    <option value="<{$vo.title}>" ><{$vo.title}></option>
                 <{/volist}>
             </select>
             <!-- 地级市 -->
             <select name="city" id="region_city">
                 <{volist name="$city" id="vo"}>
-                    <option value="<{$vo.id}>" ><{$vo.title}></option>
+                    <option value="<{$vo.title}>" ><{$vo.title}></option>
                 <{/volist}>
             </select>
             <!-- 省份 -->
             <select name="province" id="region_province">
+                <!-- <option value="" >请选择</option> -->
                 <{volist name="$province" id="vo"}>
-                    <option value="<{$vo.id}>" ><{$vo.title}></option>
+                    <option value="<{$vo.title}>" ><{$vo.title}></option>
                 <{/volist}>
             </select>
             
@@ -128,9 +130,9 @@
     </div>
 </div>
 
-
+<!-- 收货地址的添加和编辑页面的js可以合并 -->
 <script>
-
+    
     $('#main-submit-btn').click(function(){
         if($('input[name="name"]').val() == ''){
             alert('收货人为空'); 
@@ -171,16 +173,19 @@
 
     // 这个方法暂时用不着，开放两个以上省份是可用
     $('#region_province').change(function(){
-        var pid = $(this).val();
+        var title = $(this).val();
         var html = '';
+        html += '<option value="">请选择</option>';
+        $('#region_city').html(html);
         $.ajax({
             type: 'POST',
             url: '/index/address/getcity',
-            data: {pid: pid},
+            data: {title: title},
             success: function(res){
                 res = $.parseJSON(res);
+                
                 $.each(res, function(index, value){
-                    html += '<option value="'+value['id']+'" >'+value['title']+'</option> ';
+                    html += '<option value="'+value['title']+'" >'+value['title']+'</option> ';
                 });
                 $('#region_city').html(html);
             }
@@ -189,16 +194,18 @@
 
     // 这个方法暂时用不着，开放两个以上城市时可用
     $('#region_city').change(function(){
-        var pid = $(this).val();
+        var title = $(this).val();
         var html = '';
+        html += '<option value="">请选择</option>';
+        $('#region_area').html(html);
         $.ajax({
             type: 'POST',
             url: '/index/address/getarea',
-            data: {pid: pid},
+            data: {title: title},
             success: function(res){
                 res = $.parseJSON(res);
                 $.each(res, function(index, value){
-                    html += '<option value="'+value['id']+'" >'+value['title']+'</option> ';
+                    html += '<option value="'+value['title']+'" >'+value['title']+'</option> ';
                 });
                 $('#region_area').html(html);
             }
@@ -206,13 +213,13 @@
     });
 
     $('#region_area').change(function(){
-        var pid = $(this).val();
+        var title = $(this).val();
         var chtml = '';
         var shtml = '';
         $.ajax({
             type: 'POST',
             url: '/index/address/getcommunity',
-            data: {pid: pid},
+            data: {title: title},
             success: function(res){
                 res = $.parseJSON(res);
                 if(res.community.length === 0){
@@ -242,10 +249,14 @@
             }
         });
     });
-
+    $('#community-modal-content').click(function(){
+        console.log('点击modal内容');
+    });
     $('.community-item').click(function(){
-        $('#region_community').val($(this).html());
-        $('#myCommunity').modal('hide');
+        console.log('点击item内容');
+        // console.log($(this).html());
+        // $('#region_community').val($(this).html());
+        // $('#myCommunity').modal('hide');
     });
 
     $('.station-item').click(function(){
