@@ -106,12 +106,8 @@
                     <div class="community-item"><{$vo.title}></div>
                 <{/volist}>
             </div>
-            <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">提交更改</button>
-            </div> -->
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
+        </div>
+    </div>
 </div>
 
 <!-- 模态框（Modal） -->
@@ -216,12 +212,14 @@
         var title = $(this).val();
         var chtml = '';
         var shtml = '';
+        
         $.ajax({
             type: 'POST',
             url: '/index/address/getcommunity',
             data: {title: title},
             success: function(res){
                 res = $.parseJSON(res);
+
                 if(res.community.length === 0){
                     $('#community-modal-content').empty();
                     // ('#community-modal-content').html('该区域暂无服务');
@@ -241,7 +239,9 @@
                     
                     $.each(res.station, function(index, value){
                         shtml += '<div class="station-item">'+value['title']+'</div>';
+                        
                     });
+                    
                     $('#station-modal-content').html(shtml);
                 }
                 
@@ -249,14 +249,11 @@
             }
         });
     });
-    $('#community-modal-content').click(function(){
-        console.log('点击modal内容');
-    });
+
     $('.community-item').click(function(){
-        console.log('点击item内容');
-        // console.log($(this).html());
-        // $('#region_community').val($(this).html());
-        // $('#myCommunity').modal('hide');
+
+        $('#region_community').val($(this).html());
+        $('#myCommunity').modal('hide');
     });
 
     $('.station-item').click(function(){

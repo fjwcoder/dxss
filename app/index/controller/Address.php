@@ -48,19 +48,24 @@ class Address extends Common
             $id = input('id', 0, 'intval');
         }
         $uid = session(config('USER_ID'));
+        $status = false;
         Db::startTrans();
         try{
             $refresh = Db::name('user_address')->where(['userid'=>$uid]) -> update(['type'=>0]); 
             $default = Db::name('user_address') -> where(['userid'=>$uid, 'id'=>$id]) -> update(['type'=>1]);
             if($default){
                 Db::commit(); 
+                $status = true;
                 // return $this->redirect('/index/login/index');
-                return $this->redirect('/index/address/index');
+                
             }else{
                 Db::rollback(); 
             }
         }catch (\Exception $e) {
             Db::rollback();
+        }
+        if($status){
+            return $this->redirect('/index/address/index');
         }
 
     }
