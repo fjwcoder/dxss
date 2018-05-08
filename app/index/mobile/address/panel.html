@@ -1,0 +1,51 @@
+<style>
+
+.chose-panel{width: 100%; height: 100%; z-index: 1031; position: fixed;
+    top: 0; bottom: 0; right: -100%; display: none;}
+.community-item, .station-item{float: left; margin-right: 15px; margin-bottom: 10px; border: 1px solid #999;
+    border-radius: 3px; padding: 1px 5px;}
+h3{padding: 1rem; border-bottom: 1px solid #6ad4c9;}
+.modal-left{height: 100%; width: 10%; background-color: rgba(0, 0, 0, 0.5);}
+.modal-content{height: 100%; width: 90%; background-color: #fff;}
+</style>
+<div id="myCommunity" class="chose-panel">
+    <div class="modal-left pull-left"></div>
+    <div class="modal-content pull-left">
+        <h3>选择小区</h3>
+        <div id="community-modal-content" class="modal-body">
+            <{volist name="$community" id="vo"}>
+                <div class="community-item"><{$vo.title}></div>
+            <{/volist}>
+        </div>
+    </div>
+    
+</div>
+
+<div id="myStation" class="chose-panel ">
+    <div class="modal-left pull-left"></div>
+    <div class="modal-content pull-left">
+        <h3>选择驿站</h3>  
+        <div id="station-modal-content" class="modal-body">
+            <{volist name="$station" id="vo"}>
+                <div class="station-item" ><{$vo.title}></div>
+            <{/volist}>
+        </div>  
+    </div>
+    
+</div>
+<script>
+    $('#region_community').click(function(){
+        $('#myCommunity').css({'display':'block'});
+        $('#myCommunity').animate({'right':'0'}, 200);
+    });
+    $('#region_station').click(function(){
+        $('#myStation').css({'display':'block'});
+        $('#myStation').animate({'right':'0'}, 200);
+    });
+    $('.modal-left').click(function(){
+        $('.chose-panel').animate({'right':'-100%'}, 200, function(){
+            $('.chose-panel').css({'display':'none'});
+        });
+    });
+</script>
+    

@@ -22,7 +22,6 @@
     </li>
   </ul>
 </nav>
-
 <form method="post" role="form" action="/index/address/addsave">
     <div class="container-fluid address-container">
         <div class="address-add-item">
@@ -61,11 +60,11 @@
         </div>
         <div class="address-add-item">
             <label>小区：</label>
-            <input id="region_community" value="" name="community" placeholder="请选择小区" readonly data-toggle="modal" data-target="#myCommunity"/>
+            <input id="region_community" value="" name="community" placeholder="请选择小区" readonly />
         </div>
         <div class="address-add-item">
             <label>暂存驿站：</label>
-            <input id="region_station" value="" name="station" placeholder="请选择驿站" readonly data-toggle="modal" data-target="#myStation"/>
+            <input id="region_station" value="" name="station" placeholder="请选择驿站" readonly />
         </div>
         
         <!--标签暂时不开放-->
@@ -75,7 +74,7 @@
 
     </div>
 
-    <nav class="navbar address-foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
+    <nav class="navbar address-foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom" style="bottom: 1rem!important;">
         <!--强制横向排列 竖向是：column-->
         <ul class="navbar-nav" style="flex-direction: row; width: 85%;  display:table; text-align: center;">
             <li class="nav-item">
@@ -87,44 +86,8 @@
         </ul>
     </nav>
 </form>
+<{include file="address:panel"}>
 
-<style>
-    .modal-dialog{margin: 0; }
-    .community-item, .station-item{float: left; margin-right: 15px; margin-bottom: 10px; border: 1px solid #999;
-        border-radius: 3px; padding: 1px 5px;}
-</style>
-<!-- 模态框（Modal） -->
-<div class="modal fade" id="myCommunity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel0" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header ">
-                <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-                <h6 class="modal-title" id="myModalLabel0">选择小区</h6>
-            </div>
-            <div id="community-modal-content" class="modal-body">
-                <{volist name="$community" id="vo"}>
-                    <div class="community-item"><{$vo.title}></div>
-                <{/volist}>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- 模态框（Modal） -->
-<div class="modal fade" id="myStation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header ">
-                <h6 class="modal-title" id="myModalLabel1">选择驿站</h6>
-            </div>
-            <div id="station-modal-content" class="modal-body">
-                <{volist name="$station" id="vo"}>
-                    <div class="station-item" ><{$vo.title}></div>
-                <{/volist}>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- 收货地址的添加和编辑页面的js可以合并 -->
 <script>
@@ -208,6 +171,7 @@
         });
     });
 
+
     $('#region_area').change(function(){
         var title = $(this).val();
         var chtml = '';
@@ -251,15 +215,19 @@
     });
 
     $('.community-item').click(function(){
-
         $('#region_community').val($(this).html());
-        $('#myCommunity').modal('hide');
+        $('.chose-panel').animate({'right':'-100%'}, 200, function(){
+            $('.chose-panel').css({'display':'none'});
+        });
     });
 
     $('.station-item').click(function(){
         $('#region_station').val($(this).html());
-        $('#myStation').modal('hide');
+        $('.chose-panel').animate({'right':'-100%'}, 200, function(){
+            $('.chose-panel').css({'display':'none'});
+        });
     });
+
 </script>
 
 <{/block}>

@@ -14,6 +14,7 @@ class Regist extends controller
     public function index(){
 
         $this->assign('footer', ['status'=>false]);
+        $this->assign('config', ['page_title'=>'用户注册']);
         return $this->fetch();
         
     }

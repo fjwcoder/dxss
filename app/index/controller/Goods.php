@@ -1,7 +1,8 @@
 <?php
 namespace app\index\controller;
-// use app\model\model\Users;
-
+use app\model\model\UserAddress;
+use app\model\model\GoodsInfo;
+use app\index\controller\Time as Time;
 use think\Controller;
 use think\Config;
 use think\Session;
@@ -11,54 +12,38 @@ use think\cache\driver\Redis;
 
 class Goods extends controller
 {
+    
+    /**
+     * 未完成：
+     * 1. 选择不同的地址后，预计送达时间要修改
+     */
     public function index(){
+        $user_id = 1;
         $gid = input('gid', 1, 'intval');
         if($gid === 0){
             return '商品ID错误'; die;
         }
         // 1. 获取商品详情信息
-        $goods = $this->getGoodsDetail($gid);
-        // return dump($goods);
-        $this->assign('goods', $goods);
+        $model = new GoodsInfo();
+        $goods = $model->getGoodsDetail($gid);
+        // dump($goods); die;
+        $this->assign('goods', $goods['goods']);
+        $this->assign('spec_num', count($goods['goods']['specs'])); // 计算规格数量
+
         // 2. 获取默认收货地址
-        
-
+        $model = new UserAddress();
+        $allAddr = $model->getAddress(); // 不传参的话，查出全部的收货地址
+        // dump($allAddr); die;
+        $this->assign('address', $allAddr);
         // 3. 计算预计送达时间
-
+        $timeObj = new Time();
+        $shipping_time = $timeObj->calculate();
+        $this->assign('shipping_time', $shipping_time);
 
         $this->assign('footer', ['status'=>false]);
+        $this->assign('config', ['page_title'=>'商品详情']);
         return $this->fetch();
     }
 
-    # |=================================================================
-    # | 
-    # |
-    # |
-    # |
-    # |=================================================================
-    public function getGoodsDetail($gid=0){
-
-        if($gid===0){
-            return ['status'=>false];
-        }else{
-            // 1. 全部信息 + detail
-            $goods = Db::name('goods') -> alias('a') 
-                ->join('goods_detail b', 'a.id=b.gid', 'LEFT')
-                ->field('a.id, a.catid, a.name, a.sub_name, a.key_words, a.brand, a.service, a.promotion, 
-                    a.price, a.amount, a.sell_amount, a.img, a.weight, a.free_shipping, a.shipping_money, 
-                    a.status, a.description, b.detail ')
-                ->where(['a.status'=>1, 'a.id'=>$gid, 'b.gid'=>$gid])
-                -> find();
-
-            // 2. 图片信息
-            $pictures = Db::name('goods_picture') -> where(['gid'=>$gid]) -> select();
-            // 3. 规格信息
-            $specs = Db::name('goods_spec') -> where(['gid'=>$gid]) ->field('gid, spec, num, price') -> select();
-            
-            $goods['pics'] = $pictures;
-            $goods['specs'] = $specs;
-            
-            return ['status'=>true, 'goods'=>$goods];
-        }
-    }
+    
 }

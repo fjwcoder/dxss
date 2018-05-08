@@ -1,6 +1,6 @@
 <?php
 namespace app\index\controller;
-use app\model\model\Region;
+use app\model\model\UserAddress;
 use app\index\controller\Common as Common;
 use think\Controller;
 use think\Config;
@@ -15,6 +15,7 @@ class Address extends Common
         $address = $this->getAddress(); // 参数为空，获取全部地址
         $this->assign('address', $address);
         $this->assign('footer', ['status'=>false]);
+        $this->assign('config', ['page_title'=>'收货地址']);
         return $this->fetch();
         
     }
@@ -26,29 +27,23 @@ class Address extends Common
         if($id===0){
             $id = input('id', 0, 'intval');
         }
-        $where['userid'] = session(config('USER_ID'));
-        if($default){  // 获取默认地址
-            $where['type'] = 1;
-        }else{ 
-            if($id !== 0){ // 获取指定地址
-                $where['id'] = $id;
-            }
-        }
-        $address = Db::name('user_address') -> where($where) -> order('type desc') -> select();
-        if($default || $id !== 0){
-            return $address[0];
-        }else{
-            return $address;
-        }
-        // return ($default)?$address[0]:$address; // 返回全部地址，还是只返回一个
+        
+        $address_model = new UserAddress();
+        $address = $address_model->getAddress($default, $id);
+        return $address;
+
     }
 
     public function setDefaultAddress($id=0){
-        if($id===0){
+        if(request()->isAjax()){
+            $isajax = true;
             $id = input('id', 0, 'intval');
+        }else{
+            $isajax = false;
         }
+
         $uid = session(config('USER_ID'));
-        $status = false;
+        $status = false; // 默认失败
         Db::startTrans();
         try{
             $refresh = Db::name('user_address')->where(['userid'=>$uid]) -> update(['type'=>0]); 
@@ -56,7 +51,6 @@ class Address extends Common
             if($default){
                 Db::commit(); 
                 $status = true;
-                // return $this->redirect('/index/login/index');
                 
             }else{
                 Db::rollback(); 
@@ -65,7 +59,12 @@ class Address extends Common
             Db::rollback();
         }
         if($status){
-            return $this->redirect('/index/address/index');
+            if($isajax){
+                echo json_encode(['status'=>true, 'id'=>$id]);
+            }else{
+                return $this->redirect('/index/address/index'); // 非ajax方法还没有用到
+            }
+            
         }
 
     }
@@ -94,7 +93,7 @@ class Address extends Common
         $this->assign('station', $this->getStation($aid, true));
 
         $this->assign('footer', ['status'=>false]);
-
+        $this->assign('config', ['page_title'=>'新增地址']);
         return $this->fetch();
         
     }
@@ -158,6 +157,7 @@ class Address extends Common
 
         $this->assign('address', $address);
         $this->assign('footer', ['status'=>false]);
+        $this->assign('config', ['page_title'=>'编辑地址']);
         return $this->fetch();
         
     }

@@ -1,0 +1,33 @@
+<!-- 底部导航栏 -->
+<{if $footer.status }>
+<nav class="navbar foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
+    <!--强制横向排列 竖向是：column-->
+    <ul class="navbar-nav" style="flex-direction: row; width: 100%; 
+    display:table; text-align: center;">
+        <li class="nav-item">
+        <a  class="nav-link" href="javascript:void(0)">
+            <span class="font-nav-link foot-nav-home fa fa-home fa-lg"></span><br>
+            <span class="font-nav-link foot-nav-home nav-font">首页</span>
+            
+        </a>
+        </li>
+        <li class="nav-item">
+        <a  class="nav-link" href="javascript:void(0)">
+            <span class="font-nav-link foot-nav-category fa fa-list-ul fa-lg"></span><br>
+            <span class="font-nav-link foot-nav-category nav-font">分类</span>
+        </a>
+        </li>
+        <li class="nav-item">
+        <a  class="nav-link" href="javascript:void(0)">
+            <span class="font-nav-link foot-nav-user fa fa-user fa-lg"></span><br>
+            <span class="font-nav-link foot-nav-user nav-font">我的</span>
+        </a>
+        </li>
+    </ul>
+</nav>
+<script>
+    var footname = '<{$footer.name}>';
+    $('.foot-nav-link').removeClass('current-foot-nav');
+    $('.foot-nav-'+footname).addClass('current-foot-nav');
+</script>
+<{/if}>

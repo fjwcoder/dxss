@@ -52,11 +52,12 @@ class Think
     {
         $this->config = array_merge($this->config, $config);
         if (empty($this->config['view_path'])) {
-            if(isMobile()===true){
+            // 模板显示 fjwinter fjw
+            // if(isMobile()===true){
                 $this->config['view_path'] = App::$modulePath . 'mobile' . DS;
-            }else{
-                $this->config['view_path'] = App::$modulePath . 'view' . DS;
-            }
+            // }else{
+                // $this->config['view_path'] = App::$modulePath . 'view' . DS;
+            // }
         }  
         $this->template = new Template($this->config);
     }

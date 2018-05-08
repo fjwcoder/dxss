@@ -1,0 +1,261 @@
+<{extend name="./public/index"/}>
+<{block name="content"}>
+<style>
+    .address-container{margin-top: 50px; border-top: 1px solid #e0e0e0;}
+    .address-foot-navbar .navbar-nav .nav-link{width: 100%; margin: 0 10%;}
+    .address-container .address-add-item{height: 40px; padding: 0.5rem 1rem; border-bottom: 1px solid #e0e0e0;}
+    .address-container .address-add-item select{width: 80px; float: right;}
+</style>
+
+<nav class="navbar address-navbar top-navbar navbar-expand-sm bg-light navbar-light fixed-top" onclick="navClick();" >
+
+  <a class="navbar-brand" href="javascript: history.go(-1);">
+      <span class="fa fa-angle-left fa-lg"></span>
+  </a>
+
+  <ul class="navbar-nav" style="flex-direction: row; width: 90%; display:table; text-align: center;">
+    <li class="nav-item " >
+      <a class="nav-link " href="javascript: void(0);" style="width: 90%;">
+        编辑地址
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<form method="post" role="form" action="/index/address/editsave">
+    <div class="container-fluid address-container">
+        <div class="address-add-item">
+            <label>收货人：</label><input name="name" value="<{$address.name}>"/>
+        </div>
+        <div class="address-add-item">
+            <label>联系方式：</label><input name="mobile" value="<{$address.mobile}>"/>
+        </div>
+        <div class="address-add-item">
+            <label>省市区：</label>
+            
+            <!-- 区县 -->
+            <select name="area" id="region_area">
+                <{volist name="$area" id="vo"}>
+                    <{if $vo.title == $address.area}>
+                    <option value="<{$vo.title}>" selected><{$vo.title}></option>
+                    <{else}>
+                    <option value="<{$vo.title}>" ><{$vo.title}></option>
+                    <{/if}>
+                <{/volist}>
+            </select>
+            <!-- 地级市 -->
+            <select name="city" id="region_city">
+                <{volist name="$city" id="vo"}>
+                    <{if $vo.title == $address.area}>
+                    <option value="<{$vo.title}>" selected><{$vo.title}></option>
+                    <{else}>
+                    <option value="<{$vo.title}>" ><{$vo.title}></option>
+                    <{/if}>
+                <{/volist}>
+            </select>
+            <!-- 省份 -->
+            <select name="province" id="region_province">
+                <{volist name="$province" id="vo"}>
+                    <{if $vo.title == $address.area}>
+                    <option value="<{$vo.title}>" selected><{$vo.title}></option>
+                    <{else}>
+                    <option value="<{$vo.title}>" ><{$vo.title}></option>
+                    <{/if}>
+                <{/volist}>
+            </select>
+        </div>
+        <div class="address-add-item">
+            <label>街道：</label><input name="address" placeholder="xx路xx街xx号" value="<{$address.address}>"/>
+        </div>
+        <div class="address-add-item">
+            <label>小区：</label>
+            <input name="community" id="region_community" placeholder="请选择小区" value="<{$address.community}>" readonly data-toggle="modal" data-target="#myCommunity"/>
+        </div>
+        <div class="address-add-item">
+            <label>暂存驿站：</label>
+            <input name="station" id="region_station" placeholder="请选择驿站" value="<{$address.station}>" readonly data-toggle="modal" data-target="#myStation"/>
+        </div>
+        
+        <!--标签暂时不开放-->
+        <!--<div class="address-add-item">
+            <label>标签：</label><input placeholder="街道、楼牌号等"/>
+        </div>-->
+        
+    </div>
+
+    <nav class="navbar address-foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
+        <!--强制横向排列 竖向是：column-->
+        <ul class="navbar-nav" style="flex-direction: row; width: 85%;  display:table; text-align: center;">
+            <li class="nav-item">
+            <a id="main-submit-btn" class="nav-link main-submit-btn" href="javascript: void(0);" >
+                <input type="hidden" name="addressid" value="<{$address.id}>"/>
+                <span class="fa fa-save "></span>&nbsp;&nbsp;保存
+            </a>
+            </li>
+
+        </ul>
+    </nav>
+</form>
+<style>
+    .modal-dialog{margin: 0; }
+    .community-item, .station-item{float: left; margin-right: 15px; margin-bottom: 10px; border: 1px solid #999;
+        border-radius: 3px; padding: 1px 5px;}
+</style>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myCommunity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel0" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+                <h6 class="modal-title" id="myModalLabel0">选择小区</h6>
+            </div>
+            <div id="community-modal-content" class="modal-body">
+                <{volist name="$community" id="vo"}>
+                    <div class="community-item"><{$vo.title}></div>
+                <{/volist}>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myStation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h6 class="modal-title" id="myModalLabel1">选择驿站</h6>
+            </div>
+            <div id="station-modal-content" class="modal-body">
+                <{volist name="$station" id="vo"}>
+                    <div class="station-item" ><{$vo.title}></div>
+                <{/volist}>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 收货地址的添加和编辑页面的js可以合并 -->
+<script>
+    $('#main-submit-btn').click(function(){
+        if($('input[name="name"]').val() == ''){
+            alert('收货人为空'); 
+            return false;
+        }
+        if($('input[name="mobile"]').val() == ''){
+            alert('联系方式为空'); 
+            return false;
+        }
+        if($('select[name="province"]').val() == ''){
+            alert('请选择省份'); 
+            return false;
+        }
+        if($('select[name="city"]').val() == ''){
+            alert('请选择城市'); 
+            return false;
+        }
+        if($('select[name="area"]').val() == ''){
+            alert('请选择地区'); 
+            return false;
+        }
+        if($('input[name="address"]').val() == ''){
+            alert('请填写地址'); 
+            return false;
+        }
+        if($('input[name="community"]').val() == ''){
+            alert('请选择小区'); 
+            return false;
+        }
+        if($('input[name="station"]').val() == ''){
+            alert('请选择驿站'); 
+            return false;
+        }
+        $('form').submit();
+    });
+
+    // 这个方法暂时用不着，开放两个以上省份是可用
+    $('#region_province').change(function(){
+        var title = $(this).val();
+        var html = '';
+        $.ajax({
+            type: 'POST',
+            url: '/index/address/getcity',
+            data: {title: title},
+            success: function(res){
+                res = $.parseJSON(res);
+                $.each(res, function(index, value){
+                    html += '<option value="'+value['id']+'" >'+value['title']+'</option> ';
+                });
+                $('#region_city').html(html);
+            }
+        });
+    });
+
+    // 这个方法暂时用不着，开放两个以上城市时可用
+    $('#region_city').change(function(){
+        var title = $(this).val();
+        var html = '';
+        $.ajax({
+            type: 'POST',
+            url: '/index/address/getarea',
+            data: {title: title},
+            success: function(res){
+                res = $.parseJSON(res);
+                $.each(res, function(index, value){
+                    html += '<option value="'+value['id']+'" >'+value['title']+'</option> ';
+                });
+                $('#region_area').html(html);
+            }
+        });
+    });
+
+    $('#region_area').change(function(){
+        var title = $(this).val();
+        var chtml = '';
+        var shtml = '';
+        $.ajax({
+            type: 'POST',
+            url: '/index/address/getcommunity',
+            data: {title: title},
+            success: function(res){
+                res = $.parseJSON(res);
+                if(res.community.length === 0){
+                    $('#community-modal-content').empty();
+                    // ('#community-modal-content').html('该区域暂无服务');
+                }else{
+                    
+                    $.each(res.community, function(index, value){
+                        chtml += '<div class="community-item">'+value['title']+'</div>';
+                    });
+
+                    $('#community-modal-content').html(chtml);
+                }
+
+                if(res.station.length === 0){
+                    $('#station-modal-content').empty();
+                    // ('#station-modal-content').html('该区域暂无服务');
+                }else{
+                    
+                    $.each(res.station, function(index, value){
+                        shtml += '<div class="station-item">'+value['title']+'</div>';
+                    });
+                    $('#station-modal-content').html(shtml);
+                }
+                
+                
+            }
+        });
+    });
+
+    
+
+    $('.community-item').click(function(){
+        $('#region_community').val($(this).html());
+        $('#myCommunity').modal('hide');
+    });
+
+    $('.station-item').click(function(){
+        $('#region_station').val($(this).html());
+        $('#myStation').modal('hide');
+    });
+</script>
+<{/block}>

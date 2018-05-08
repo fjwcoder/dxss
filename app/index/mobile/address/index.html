@@ -1,8 +1,8 @@
 <{extend name="./public/index"/}>
 <{block name="content"}>
 <style>
-    .list-empty-box{height: 300px; padding-top: 80px; color: #8e8e8e; background-color: #f0f0f0; text-align: center;}
-    .address-container{height: 1000px; padding-top: 50px; background-color: #f0f0f0;}
+    .list-empty-box{height: 300px; padding-top: 80px; color: #8e8e8e; background-color: #f8f9fa; text-align: center;}
+    .address-container{height: auto; padding-top: 2.5rem; background-color: #f8f9fa;}
     .address-foot-navbar .navbar-nav .nav-link{width: 100%; margin: 0 10%;}
     .address-card{background-color: #fff; margin-top: 0.6rem; padding: 0 1rem;}
     .address-card-content{min-height: 93.39px; overflow: hidden;  padding-top: 0.5rem;}
@@ -11,14 +11,14 @@
     .address-card-content .address-detail{color: #999; }
     .address-card-item a{color: #999; }
     .address-card-item .address-controller{float: right; margin-left: 1.5rem;}
+    .def-addr-border{border: 2px dashed #19A97B;}
+    .def-check-checked{color: #19A97B;}
 </style>
 
 <nav class="navbar address-navbar top-navbar navbar-expand-sm bg-light navbar-light fixed-top" onclick="navClick();" >
-
   <a class="navbar-brand" href="javascript: history.go(-1);">
       <span class="fa fa-angle-left fa-lg"></span>
   </a>
-
   <ul class="navbar-nav" style="flex-direction: row; width: 90%; display:table; text-align: center;">
     <li class="nav-item " >
       <a class="nav-link " href="javascript: void(0);" style="width: 90%;">
@@ -37,8 +37,12 @@
             您还没有收货地址
         </div>
     <{else}>
-        <{volist name="$address" id="vo"}>
-            <div class="container-fluid address-card">
+        <{volist name="$address" id="vo" key="index"}>
+            <{if $index eq 1}>
+            <div id="addr-card-<{$vo.id}>" class="container-fluid address-card def-addr-border" >
+            <{else}>
+            <div id="addr-card-<{$vo.id}>" class="container-fluid address-card">
+            <{/if}>
                 <div class="address-card-content">
                   <span class="address-name"><{$vo.name}>&nbsp;&nbsp;<{$vo.mobile}></span>
                   <br>
@@ -51,17 +55,17 @@
                 </div>
                 <div class="address-card-item " >
                     <{if $vo.type == 1}> 
-                    <a href="javascript: void(0);">
-                        <span class="fa fa-check-circle" style="color: #19A97B;"></span>&nbsp;默认地址
+                    <a href="javascript: void(0);" onclick="selectDefAddr('<{$vo.id}>');">
+                        <span id="addr-check-<{$vo.id}>" class="fa fa-check-circle def-check-checked" >&nbsp;默认地址</span>
                     </a>
                     
                     <{else}>
-                    <a href="/index/address/setdefaultaddress?id=<{$vo.id}>">
-                        <span class="fa fa-circle-thin"></span>&nbsp;设为默认
+                    <!-- <a href="/index/address/setdefaultaddress?id=<{$vo.id}>"> -->
+                    <a href="javascript: void(0);" onclick="selectDefAddr('<{$vo.id}>');">
+                        <span id="addr-check-<{$vo.id}>" class="fa fa-circle-thin">&nbsp;设为默认</span>
                     </a>
                     
                     <{/if}>
-                    
                     
                     <a class="address-controller" href="/index/address/deladdress?id=<{$vo.id}>">
                         <span class="fa fa-trash-o"></span>&nbsp;删除
@@ -81,7 +85,7 @@
 
 </div>
 
-<nav class="navbar address-foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
+<nav class="navbar address-foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom" style="bottom: 1rem!important;">
     <!--强制横向排列 竖向是：column-->
     <ul class="navbar-nav" style="flex-direction: row; width: 85%;  display:table; text-align: center;">
         <li class="nav-item">
@@ -92,4 +96,30 @@
 
     </ul>
 </nav>
+<script>
+    function selectDefAddr(id){
+        var id = parseInt(id);
+        $.ajax({
+            type: 'POST',
+            url: '/index/address/setDefaultAddress',
+            data: {id: id},
+            success: function(res){
+                res = JSON.parse(res); // JSON字符串转对象
+                if(res.status){
+                    $('.fa-check-circle').html('&nbsp;设为默认');
+                    $('.fa-check-circle').removeClass('fa-check-circle').removeClass('def-check-checked').addClass('fa-circle-thin');
+                    $('#addr-check-'+res.id).html('&nbsp;默认地址');
+                    $('#addr-check-'+res.id).removeClass('fa-circle-thin').addClass('fa-check-circle').addClass('def-check-checked');
+                    $('.address-card').removeClass('def-addr-border');
+                    $('#addr-card-'+res.id).addClass('def-addr-border');
+                }
+            },
+            error: function(e){
+
+            }
+        });
+        console.log(id);
+    }
+
+</script>
 <{/block}>

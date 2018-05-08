@@ -3,6 +3,7 @@ composer.lock
 !.gitignore
 runtime/
 install/
+conf/
 .vscode/
 *.zip
 *.rar

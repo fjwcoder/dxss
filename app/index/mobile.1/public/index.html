@@ -1,0 +1,68 @@
+<{include file="public:header"}>
+<style>
+    .main-bg-color{background-color: #19A97B;}
+    .second-bg-color{background-color: #6ad4c9;}
+
+    .main-font-color{color: #333;}
+    .second-font-color{color: #666;}
+    .third-font-color{color: #999;}
+    select, input{background: #fff; }
+    label{background-color: #fff; color: #999;}
+    input, select, option{outline: none; border: 0;}
+    .main-bg-font-color{color: #19A97B; }
+    .second-bg-font-color{color: #6ad4c9;}
+    /*设置底部导航栏字的颜色*/
+    .nav-tabs .nav-item .nav-link{color: #666;}/*顶部卡片导航栏*/
+    .navbar .navbar-nav .nav-link{color: #333;}/*底部导航栏*/
+    .main-submit-btn{background-color: #19A97B; color: #fff!important; border: 0;}
+    .second-submit-btn{background-color: #6ad4c9; color: #fff!important;}
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{border-color: #fff #fff #19A97B #fff;}
+    .station-tag{border: 1px solid #6ad4c9; color: #6ad4c9; padding: 0 0.5rem; 
+        font-size: 0.95rem; border-radius: 5px;}
+    .business-tag{background-color: #19A97B; color: #fff; font-size: 0.9rem; padding: 0.1rem 0.5rem; 
+        border-radius: 15px;}
+    .current-foot-nav{color: #19A97B;}
+    .foot-navbar .navbar-nav .nav-item .nav-link{  padding: 0; min-height: 40px;}
+    .foot-navbar .navbar-nav .nav-item .nav-link .nav-font{font-size: 14px; }
+    /*以上为公众样式*/
+    .top-navbar{background-color: #fff!important;}
+    .container-fluid{padding: 0;}
+    .show{display: block!important;}
+    .hidden{display: none!important;}
+    .navbar{padding: 0.313rem 1rem;}
+    .navbar .navbar-nav .nav-link{width: 33.33%; float: left; }
+    
+</style>
+        
+    </head>
+    <body>
+        <!-- 顶部搜索 -->
+        <!-- 判断是否显示搜索页面：在网站首页、分类搜索页 才会显示-->
+        <{if request()->module()=="index" and request()->controller()=="Index" and request()->action()=="index" }>
+            <nav id="nav-head-navbar" class="navbar head-navbar navbar-expand-sm bg-light navbar-light fixed-top" style="background-color: transparent!important;">
+                <form class="form-inline" style="width: 100%;" method="post" role="form" action="<{#}>">
+                    <a class="navbar-brand" href="#" style="color: #28a745;">Logo</a>
+                    <input class="form-control" type="text" placeholder="Search" style="width: 80%; border-radius: 20px; padding: .25rem .75rem; border: 0;">
+                    <!-- <button class="btn btn-success" type="button" style="margin-left: 1rem;">Q</button> -->
+                </form>
+            </nav>
+        <{/if}>
+
+        <div class="index-center-container container-fluid" style="height: 1000px; overflow:scroll; padding-bottom: 50px;">
+            <{block name="content"}>
+                内容
+            <{/block}>
+        </div>
+        
+        <!-- 引入底部导航 -->
+        <{include file="public:foot_nav"}>
+    </body>
+    
+    
+    <!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+    
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+
+</html>

@@ -29,7 +29,7 @@
         我的购物车
       </a>
       <div class="dropdown-menu order-dropdown-menu">
-          <a class="dropdown-item show" href="javascript: void(0);">我的购物车</a>
+          <!-- <a class="dropdown-item show" href="javascript: void(0);">我的购物车</a> -->
         <!-- <a class="dropdown-item show" href="/index/cart/index?type=1">我的购物车</a> -->
         <!-- <a class="dropdown-item show" href="/index/cart/index?type=2">过期产品</a> -->
       </div>
@@ -40,7 +40,7 @@
 
 
 <!-- 订单列表 -->
-<form method="post" role="form" action="/index/cart/orderPreview">
+<form method="post" role="form" action="/index/order/preview">
   <div class="container-fluid order-container">
 
       <{if empty($cart)}>
@@ -49,29 +49,40 @@
               购物车空空如也~
           </div>
       <{else}>
-          
+      <{volist name="$cart" id="vo" key="index"}>
           <div class="order-card container-fluid">
             <div class="order-card-item">
-              <span class="fa fa-lg circle-check fa-circle-thin" cid="1" weight="2" money="2.20" ></span>&nbsp;&nbsp;&nbsp;顶鲜蔬蔬自营商城 
-              <input type="hidden" sid="1" name="cartList[]" value="0"/>
+              <span class="fa fa-lg circle-check fa-circle-thin" cid="<{$vo.id}>" money="<{$vo.price*$vo.num}>" ></span>&nbsp;&nbsp;&nbsp;
+                <{if $vo.seller_id eq 0}>顶鲜蔬蔬自营商城<{else}>未知商家<{/if}>
+              <input type="hidden" sid="<{$vo.id}>" name="cartList[]" value="0"/>
               <a href="/index/cart/del?id=0 "><span class="fa fa-trash-o fa-lg"></span></a>
             </div>
             <div class="order-card-content order-card-item">
-              <img src="http://img11.360buyimg.com/n1/s450x450_jfs/t15700/288/1962206735/96329/ef344d13/5a694887Nb6fcff29.jpg"/>
-              <div class="content">
-                全球销量最多的车子就是卡罗拉
+              <img src="<{$vo.goods.img}>"/>
+              <div class="content" style="height: 40%; margin-top: 2%!important; ">
+                <{$vo.goods.name}>
+              </div>
+              <div class="content text-right" style="height: 40%; margin-top: 2%!important; font-size: 13px;">
+                  <!-- <span style="font-size: 16px; font-weight: 500;">¥<{$vo.price}></span>/市斤  -->
+                  &nbsp;&nbsp;共：
+                  <span id="number-sub" onclick="fa_minus('<{$vo.id}>');" class="fa fa-minus fa-fw"></span>
+                  <input id="goods_weight-<{$vo.id}>" readonly price="<{$vo.spec.price}>" weight="<{$vo.spec.weight}>" num="<{$vo.num}>" value="<{$vo.spec.weight*$vo.num}>" class="text-center" style="width: 40px; "/>
+                  <span id="number-sub" onclick="fa_plus('<{$vo.id}>');" class="fa fa-plus fa-fw"></span>
+                  &nbsp;&nbsp;
+                  <span style="font-size: 16px;">/ 市斤</span>
               </div>
             </div>
             
-            <div class="order-card-item " >
-              价格：<span style="font-size: 18px; font-weight: 500;">¥2</span>/市斤
-              &nbsp;&nbsp;重量：<span style="font-size: 18px; font-weight: 500;">5.67</span>市斤
+            <div class="order-card-item third-font-color" >
+                <span class="address-detail station-tag"><{$vo.address.station}></span>
+                &nbsp;&nbsp;&nbsp;&nbsp;<{$vo.address.name}>&nbsp;&nbsp;<{$vo.address.mobile}>
             </div>
-            <div class="order-card-item order-card-bottom text-right">
-              总额：<span style="font-size: 18px; font-weight: 500;">¥2.20</span>
+            <div class="order-card-item  order-card-bottom main-bg-font-color text-right">
+              小计：¥&nbsp;&nbsp;<span id="price-count-<{$vo.id}>" style="font-size: 18px; font-weight: 500;"><{$vo.price*$vo.num|round=###,2}></span>
             </div>
+            
           </div>
-          
+        <{/volist}>
       <{/if}>
   </div>
 
@@ -81,7 +92,7 @@
     <ul class="navbar-nav" style="flex-direction: row; width: 100%; display:table; text-align: center;">
 
         <li class="nav-item" >
-        <a class="nav-link" style="width: 60%; color: #212529;" href="javascript:void(0)" >
+        <a class="nav-link main-bg-font-color" style="width: 60%; " href="javascript:void(0)" >
             总金额：¥ <span id="all-money" style="font-size: 20px; font-weight: 500;">0.00</span>
             
         </a>
@@ -93,31 +104,76 @@
   </nav>
 </form>
 <script>
-
-  $('.circle-check').click(function(){ // 反选ing
-    var id=$(this).attr('cid');
-    var totalmoney = parseFloat($('#all-money').html());
-    if($(this).hasClass('circle-checked')){ 
-      $(this).removeClass('circle-checked').removeClass('fa-check-circle').addClass('fa-circle-thin'); 
-      $("input[sid="+id+"]").val(0); 
-      totalmoney -= parseFloat($(this).attr('money'));
-    }else{ //选中ing
-      $(this).addClass('circle-checked').removeClass('fa-circle-thin').addClass('fa-check-circle');
-      $("input[sid="+id+"]").val(id);
-      totalmoney += parseFloat($(this).attr('money'));
+    function fa_minus(id){
+      var num = parseInt($('#goods_weight-'+id).attr('num'));
+      var weight = parseInt($('#goods_weight-'+id).attr('weight'));
+      var price = parseFloat($('#goods_weight-'+id).attr('price'));
+      if(num > 1){
+        num -= 1;
+        $.ajax({
+          type: 'POST',
+            url: '/index/cart/ajaxchangenum',
+            data: {id: id, num: num},
+            success: function(res){
+                res = $.parseJSON(res);
+                allweight = res.num*weight;
+                $('#goods_weight-'+id).val(allweight);
+                $('#goods_weight-'+id).attr('num', res.num);
+                // 修改小计
+                $('#price-count-'+id).html((price*res.num).toFixed(2));
+            }
+        });
+        
+      }
     }
-    $('#all-money').html( totalmoney.toFixed(2) );
-  });
 
-  function check(){
-    var totalmoney = parseFloat($('#all-money').html());
-    if(totalmoney == 0.00){
-      alert('没有选中商品');
-      return false;
-    }else{
-      $('form').submit();
+    function fa_plus(id){
+      var num = parseInt($('#goods_weight-'+id).attr('num'));
+      var weight = parseInt($('#goods_weight-'+id).attr('weight'));
+      var price = parseFloat($('#goods_weight-'+id).attr('price'));
+      num += 1;
+      $.ajax({
+          type: 'POST',
+            url: '/index/cart/ajaxchangenum',
+            data: {id: id, num: num},
+            success: function(res){
+                res = $.parseJSON(res);
+                allweight = res.num*weight;
+                $('#goods_weight-'+id).val(allweight);
+                $('#goods_weight-'+id).attr('num', res.num);
+                // 修改小计
+                $('#price-count-'+id).html((price*res.num).toFixed(2));
+            }
+        });
+
+      
     }
-  }
+
+
+    $('.circle-check').click(function(){ 
+        var id=$(this).attr('cid');
+        var totalmoney = parseFloat($('#all-money').html());
+        if($(this).hasClass('circle-checked')){ // 反选ing
+            $(this).removeClass('circle-checked').removeClass('fa-check-circle').addClass('fa-circle-thin'); 
+            $("input[sid="+id+"]").val(0); 
+            totalmoney -= parseFloat($(this).attr('money'));
+        }else{ //选中ing
+            $(this).addClass('circle-checked').removeClass('fa-circle-thin').addClass('fa-check-circle');
+            $("input[sid="+id+"]").val(id);
+            totalmoney += parseFloat($(this).attr('money'));
+        }
+        $('#all-money').html( totalmoney.toFixed(2) );
+    });
+
+    function check(){
+        var totalmoney = parseFloat($('#all-money').html());
+        if(totalmoney == 0.00){
+            alert('没有选中商品');
+            return false;
+        }else{
+            $('form').submit();
+        }
+    }
   
   
   

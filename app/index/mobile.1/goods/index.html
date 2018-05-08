@@ -1,0 +1,192 @@
+<{extend name="./public/index"/}>
+<{block name="content"}>
+
+<style>
+  .goods-nav-tabs .nav-item{width: 33.33%; float: left;}
+  .goods-nav-tabs .nav-item a{color: #666!important; }
+  .fa{margin-top: 8px;}
+  .navbar{padding: 0.313rem 1rem;}
+  .goods-tab-pane{padding: 0;}
+  .goods-foot-navbar{ padding: 0; }
+  .goods-foot-navbar .navbar-nav .nav-link{float: left; min-height: 50px; padding: 0; line-height: 50px;}
+
+</style>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs goods-nav-tabs fixed-top" role="tablist" style="flex-direction: row; width: 100%; display: table; text-align: center; background: #fff;">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#cardZero">商品</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#cardOne">详情</a>
+  </li>
+  <!-- <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#cardTwo">评价</a>
+  </li> -->
+</ul>
+
+<!-- Tab panes -->
+
+<div class="tab-content" ><!--style="padding-top: 42px;"-->
+
+  <!--商品展示卡片-->
+  <div id="cardZero" class="container goods-tab-pane tab-pane active" style="background-color: #f0f0f0;">
+    <!--banner区-->
+    <div class="swiper-container goods-swiper-container" style="width: 100%;" >
+        <div class="swiper-wrapper">
+            <{volist name="$goods.goods.pics" id="vo"}>
+                <div class="swiper-slide">
+                    <img src="<{$vo.pic}>">
+                </div>
+            <{/volist}>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <!--商品内容-->
+    <style>
+      .goods-card{ background-color: #fff; }
+      .goods-card-item{min-height: 2.3rem; width: 100%; padding: 0.4rem 0.8rem; border: 0; font-size: 19px; line-height: 1.5rem;}
+      .goods-card-content{min-height: 3.4rem; width: 100%; overflow: hidden; font-size: 16px; line-height: 1.3rem; }
+      div.card .card-header{background-color: #fff; border: 0; padding: 0; height: 100%; width: 100%;}
+      .card-link{font-size: 1rem;}
+      .margin-top-0{margin-top: 0.5rem;}
+    </style>
+    <div  class="goods-card container-fluid">
+      <div class="goods-card-item main-font-color">
+        <span class="business-tag" >顶鲜直营</span>
+        <span ><{$goods.goods.name}></span>
+      </div>
+      <div class="goods-card-content goods-card-item third-font-color" >
+            <{$goods.goods.sub_name}>
+      </div>
+
+      <div class="goods-card-item text-right main-bg-font-color " >
+        <span class="fa fa-rmb fa-fw"></span>
+        <span style="font-size: 24px; " >5.25</span>
+        <span style="font-size: 16px;">/ 市斤</span>
+      </div>
+    </div>
+    <div id="accordion" class="container-fluid margin-top-0" >
+      <div class=" card" style="border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0; padding-left: 0; padding-right: 0;">
+          <div class="card-header" style="padding: 0.5rem 0.8rem;">
+              <a onclick="clickDefaultSpec();" class="card-link second-font-color " data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                <span class="third-font-color">已选择</span>
+                <span id="spec-angle" class="fa fa-angle-right fa-fw fa-lg pull-right third-font-color " style="margin: 5px;" ></span>
+                <span class="pull-right main-font-color" ><{$goods.goods.specs.0.spec}></span>
+              </a>
+          </div>
+          <div id="collapseOne" class="collapse " style="width: 100%; background-color: #fff;">
+              <div class="card-body">
+              Lorem ipsum..
+              </div>
+          </div>
+      </div>
+
+      <div class=" card" style="border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0; padding-left: 0; padding-right: 0;">
+          <div class="card-header" style="padding: 0.5rem 0.8rem;">
+              <a onclick="clickDefaultAddress();" class="card-link second-font-color " data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                <span id="address-angle" class="fa fa-angle-right fa-fw fa-lg pull-right third-font-color " style="margin: 5px;" ></span>
+                <!--<span class="fa fa-truck fa-fw fa-lg third-font-color " style="margin-top: 5px;" ></span>-->
+                <span class=" main-font-color " >
+                  <span class="fa fa-map-marker"></span>
+                    山东潍坊奎文区新华路东城新海枫景    
+                </span>
+              </a>
+          </div>
+          <div id="collapseTwo" class="collapse " style="width: 100%; background-color: #fff;">
+              <div class="card-body">
+              Lorem ipsum..
+              </div>
+          </div>
+      </div>
+    </div>
+    
+    <div class="goods-card-item main-font-color" style="background-color: #fff;">
+        <span class="station-tag" >东城顶鲜驿站</span>
+        <span class="pull-right">重量：5市斤</span>
+    </div>
+    <div class="goods-card-item second-font-color text-right" style="background-color: #fff; font-size: 16px;">
+        <!--<span  style="margin-right: 1rem;" >-->
+          18:00前下单，预计明天（03-04）送达
+          <!--</span>-->
+    </div>
+    <div class="goods-card-item second-font-color">
+        顶鲜驿站
+    </div>
+  </div>
+
+      
+
+    
+  
+  <!--详情卡片-->
+  <div id="cardOne" class="container goods-tab-pane tab-pane fade"><br>
+    <img src="http://static.runoob.com/images/mix/img_nature_wide.jpg">
+  </div>
+  <!--评价卡片-->
+  <div id="cardTwo" class="container goods-tab-pane tab-pane fade"><br>
+    <img src="http://static.runoob.com/images/mix/img_mountains_wide.jpg">
+  </div>
+
+  
+</div>
+
+<!--底部-->
+<nav class="navbar goods-foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
+  <!--强制横向排列 竖向是：column-->
+  <ul class="navbar-nav" style="flex-direction: row; width: 100%; display:table; text-align: center;">
+      <li class="nav-item" >
+      <a class="nav-link " style="width: 15%;" href="javascript:void(0)">
+          <span class="fa fa-angle-left fa-2x"></span>
+      </a>
+      </li>
+      <li class="nav-item" >
+      <a class="nav-link" style="width: 25%;" href="javascript:void(0)">
+          <span class="fa fa-shopping-cart fa-lg"></span>
+      </a>
+      </li>
+      <li class="nav-item" >
+      <a class="nav-link second-submit-btn" href="javascript:void(0)" style="width:30%; " >
+          加入购物车
+      </a>
+      </li>
+      <li class="nav-item" >
+      <a class="nav-link main-submit-btn" href="javascript:void(0)" style="width:30%;" >
+          立即购买
+      </a>
+      </li>
+  </ul>
+</nav>
+
+<script>
+  var mySwiper = new Swiper ('.goods-swiper-container', {
+
+      autoplay: {
+        delay: 5000,
+        stopOnLastSlide: false,
+        disableOnInteraction: true,
+      },
+      loop: true,
+      // pagination: '.swiper-pagination',
+  });
+  var swiper_width = window.screen.width;
+  $('.swiper-wrapper .swiper-slide img').css({"height":swiper_width, "width": swiper_width});
+
+  function clickDefaultSpec(){
+    console.log('spec');
+      if($('#collapseOne').hasClass('show')){
+          $('#spec-angle').removeClass('fa-angle-down').addClass('fa-angle-right');
+      }else{
+          $('#spec-angle').removeClass('fa-angle-right').addClass('fa-angle-down');
+      }
+  }
+  function clickDefaultAddress(){
+    console.log('address');
+      if($('#collapseTwo').hasClass('show')){
+          $('#address-angle').removeClass('fa-angle-down').addClass('fa-angle-right');
+      }else{
+          $('#address-angle').removeClass('fa-angle-right').addClass('fa-angle-down');
+      }
+  }
+</script>
+<{/block}>

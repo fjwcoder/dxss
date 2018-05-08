@@ -15,6 +15,7 @@ class Login extends controller
 
         // $this->assign('address', ['id'=>1]);
         $this->assign('footer', ['status'=>false]);
+        $this->assign('config', ['page_title'=>'用户登录']);
         return $this->fetch();
         
     }

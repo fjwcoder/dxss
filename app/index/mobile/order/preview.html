@@ -15,6 +15,15 @@
     .order-card-content{height: 70.39px; width: 100%; background-color: #f8f9fa; overflow: hidden;}
     .order-card-content img{height: 100%; float: left; }
     .order-card-content .content{padding-left: 1rem; overflow: hidden; float: left; width: 80%; margin-top: 3%; height: 70%;}
+    .fa{color: #6ad4c9;}
+    /* .circle-checked{ color: #19A97B;} */
+    .fa-check-circle{color: #19A97B!important;}
+    .fa-circle-thin{color: #8e8e8e!important;}
+    .address-selected{border: 2px dashed #6ad4c9;}
+    .card-body{background:#e3e3e3;}
+    .address-card-content{min-height: 93.39px; overflow: hidden; background-color: #fff; padding: 0.5rem;}
+    .address-card-content .address-name{font-size: 17px;}
+    .address-card-content .address-detail{color: #999; }
 </style>
 
 <nav class="navbar  top-navbar navbar-expand-sm bg-light navbar-light fixed-top" onclick="navClick();" >
@@ -31,74 +40,127 @@
     </li>
   </ul>
 </nav>
-
-<div id="accordion" class="container-fluid order-detail-container " >
-    <!-- 收货地址折叠 -->
-    <div class="card">
-        <div class="card-header">
-            
-            <a onclick="clickDefaultAddress();" class="card-link second-font-color" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                <span class="pull-right">
-                    <span id="address-angle" class="fa fa-angle-right fa-fw fa-lg" style="margin-top: 1rem;"></span>
-                </span>
-                冯建文&nbsp;&nbsp;18706681210
-                <span class="address-detail station-tag pull-right" >东城顶鲜驿站</span>
-                <br>
-                <span class="user-address second-font-color">
-                    <span class="fa fa-map-marker fa-fw"></span>
-                    山东潍坊奎文区新华路东城新海枫景
-                </span>
-            </a>
-        </div>
-        <div id="collapseOne" class="collapse ">
-            <div class="card-body">
-            Lorem ipsum..
+<form method="post" role="form" action="/index/order/create">
+    <div id="accordion" class="container-fluid order-detail-container " >
+        <!-- 收货地址折叠 -->
+        <{if $address}>
+            <div class="card">
+                <input type="hidden" name="address" value="<{$address.0.id}>"/>
+                <div class="card-header" style="background-color: #F0FFF0;">
+                    <a onclick="clickDefaultAddress();" class="card-link second-font-color" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        <span class="pull-right">
+                            <span id="address-angle" class="fa fa-angle-right fa-fw fa-lg" style="margin-top: 1rem;"></span>
+                        </span>
+                        <span id="selected-name-mobile"><{$address.0.name}>&nbsp;&nbsp;<{$address.0.mobile}></span>
+                        <span id="selected-station" class="address-detail station-tag pull-right" ><{$address.0.station}></span>
+                        <br>
+                        <span class="user-address second-font-color">
+                            <span class="fa fa-map-marker fa-fw"></span>
+                            <span id="selected-address"><{$address.0.province}><{$address.0.city}><{$address.0.area}><{$address.0.address}></span>
+                        </span>
+                    </a>
+                </div>
+                <div id="collapseOne" class="collapse ">
+                    <div class="card-body">
+                        <{volist name="$address" id="vo" key="index"}>
+                            <{if $index eq 1}>
+                            <div aid="<{$vo.id}>" class="address-card-content address-selected" >
+                            <{else}>
+                            <div aid="<{$vo.id}>" class="address-card-content" >
+                            <{/if}>
+                                <span class="address-name"><{$vo.name}>&nbsp;&nbsp;<{$vo.mobile}></span>
+                                <span class="address-detail pull-right"><{$vo.community}></span><br>
+                                <span class="address-detail address-detail-info"><{$vo.province}><{$vo.city}><{$vo.area}><{$vo.address}></span><br>
+                                <span class="address-detail pull-right station-tag"><{$vo.station}></span>
+                            </div>
+                        <{/volist}>
+                    </div>
+                </div>
             </div>
+        <{else}>
+        <div class="card">
+            <input type="hidden" name="address" value="0"/>
+            <div class="card-header">
+                <a  class="card-link second-font-color" href="/index/address/index">
+                    <span class="pull-right">
+                        <span id="address-angle" class="fa fa-angle-right fa-fw fa-lg" style="margin-top: 1rem;"></span>
+                    </span>
+                    未设置收货地址
+                    <br>
+                    <span class="user-address second-font-color">点击设置收货地址</span>
+                </a>
+            </div>
+
         </div>
-    </div>
+        <{/if}>
 
-    <div class="order-card-item">
-        <span class="order-shop-logo second-font-color">DXSS</span> 
-        <span class="pull-right second-font-color">
-            <span class="fa fa-rmb fa-fw"></span>在线支付
-        </span>
-    </div>
-    <div class="order-card-content order-card-item">
-        <img src="http://img11.360buyimg.com/n1/s450x450_jfs/t15700/288/1962206735/96329/ef344d13/5a694887Nb6fcff29.jpg"/>
-        <div class="content">全球销量最多的车子就是卡罗拉</div>
-    </div>
-    <div class="order-card-item">
-        <span class="second-font-color">顶鲜配送</span> 
-        <span class="pull-right">
-            <span class="fa fa-clock-o fa-fw " style="color:#6ad4c9"></span>
-            03-04 
-            <span class="second-font-color">[周五]</span> 14:00-18:00
-        </span>
-    </div>
-    
-    <div class="order-card-item" style="margin-top: 0.5rem;">
-        <span class="second-font-color">商品重量：</span> 
-        <span class="pull-right">5市斤</span>
-    </div>
-    <div class="order-card-item">
-        <span class="second-font-color">运费：</span> 
-        <a href="javascript: void(0);" class="hidden" style="color: #8e8e8e; font-size: 12px;">(运费规则?)</a>
-        <span class="pull-right">¥ 5</span>
-    </div>
-    <div class="order-card-item">
-        <span class="second-font-color">运费优惠：</span> 
-        <span class="pull-right">- ¥ 5</span>
-    </div>
-    <div class="order-card-item">
-        <span class="second-font-color">商品金额：</span> 
-        <span class="pull-right">
-                ¥ 5
-        </span>
-    </div>
-    
+        <div class="order-card-item" style="margin: 0.5rem 0; background-color: #F0FFF0;">
+            <!-- 1. 微信支付 -->
+            <input type="hidden" name="payment" value="1"/>
+            <span class="second-font-color">支付方式</span> 
+            <span class="pull-right">
+                <span class="fa fa-lg  fa-check-circle"></span> 微信支付
+            </span>
+        </div>
 
-</div>
+        <div class="order-card-item">
+            <span class="second-font-color">支付选项</span>
+            <input type="hidden" name="prior_balance" value="0"/>
+            <span class="pull-right" onclick="priorbalance(this);">
+                <span id="prior-balance" class="fa fa-lg fa-circle-thin" ></span> 优先使用余额
+            </span>
+        </div>
+        <div class="order-card-item" style="margin-bottom: 0.5rem;">
+            <input type="hidden" name="prior_point" value="0"/>
+            <span class="pull-right" onclick="priorpoint(this);">
+                <span id="prior-point" class="fa fa-lg fa-circle-thin" ></span> 优先使用积分
+            </span>
+        </div>
 
+        <div class="order-card-item" >
+            <span class="order-shop-logo second-font-color">商品列表</span> 
+            <!-- <span class="pull-right second-font-color">
+                    <span class="fa fa-rmb fa-fw"></span>在线支付
+            </span> -->
+        </div>
+        <{volist name="list" id="vo" key="index"}>
+        <div class="order-card-content order-card-item">
+            <img src="<{$vo.goods.img}>"/>
+            <div class="content"><{$vo.goods.name}></div>
+        </div>
+        <input type="hidden" name="cartList[]" value="<{$vo.id}>"/>
+        <{/volist}>
+        <div class="order-card-item">
+            <span class="second-font-color">
+                    <span class="fa fa-truck fa-fw"></span>顶鲜配送
+            </span> 
+            <span class="pull-right">
+                <span class="fa fa-clock-o fa-fw " style="color:#6ad4c9"></span>
+                03-04 
+                <span class="second-font-color">[周五]</span> 17:30
+            </span>
+        </div>
+        
+        <div class="order-card-item" style="margin-top: 0.5rem;">
+            <span class="second-font-color">商品重量：</span> 
+            <span class="pull-right"><{$total.weight}>市斤</span>
+        </div>
+        <div class="order-card-item">
+            <span class="second-font-color">运费：</span> 
+            <a href="javascript: void(0);" class="hidden" style="color: #8e8e8e; font-size: 12px;">(运费规则?)</a>
+            <span class="pull-right">( 免运费 )</span>
+        </div>
+        
+        <div class="order-card-item">
+            <span class="second-font-color">商品金额：</span> 
+            <span class="pull-right">
+                    ¥ <{$total.money}>
+            </span>
+        </div>
+        
+
+    </div>
+</form>
 <!--底部-->
 <nav class="navbar goods-foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
     <!--强制横向排列 竖向是：column-->
@@ -106,7 +168,7 @@
   
         <li class="nav-item" >
         <a class="nav-link" style="width: 60%; color: #212529;" href="javascript:void(0)" >
-            付款金额：¥ <span id="all-money" style="font-size: 20px; font-weight: 500;">5.00</span>
+            付款金额：¥ <span id="all-money" style="font-size: 20px; font-weight: 500;"><{$total.money}></span>
             
         </a>
         </li>
@@ -119,7 +181,40 @@
   </nav>
 <script>
     function orderSubmit(){
-        console.log('提交订单');
+        var address = $('input[name="address"]').val();
+        var payment = $('input[name="payment"]').val();
+        var balance = $('input[name="prior_balance"]').val();
+        var point = $('input[name="prior_point"]').val();
+        if(address == 0){
+            alert('请设置收货地址'); return false;
+        }
+        if(payment == 0){
+            alert('请选择支付方式'); return false;
+        }
+
+        $('form').submit();
+    }
+
+
+    function priorbalance(){
+        if($('#prior-balance').hasClass('fa-check-circle')){ // 取消余额优先
+            $('#prior-balance').removeClass('fa-check-circle').addClass('fa-circle-thin');
+            $('input[name="prior_balance"]').val(0);
+        }else{
+            $('#prior-balance').removeClass('fa-circle-thin').addClass('fa-check-circle');
+            $('input[name="prior_balance"]').val(1);
+        }
+
+    }
+    // 
+    function priorpoint(){
+        if($('#prior-point').hasClass('fa-check-circle')){ // 取消余额优先
+            $('#prior-point').removeClass('fa-check-circle').addClass('fa-circle-thin');
+            $('input[name="prior_point"]').val(0);
+        }else{
+            $('#prior-point').removeClass('fa-circle-thin').addClass('fa-check-circle');
+            $('input[name="prior_point"]').val(1);
+        }
     }
 
     function clickDefaultAddress(){
@@ -129,6 +224,24 @@
             $('#address-angle').removeClass('fa-angle-right').addClass('fa-angle-down');
         }
     }
+
+    //选择收货地址
+    $('.address-card-content').click(function(){
+        var name_mobile = $(this).children('.address-name').html();
+        var detail = $(this).children('.address-detail-info').html();
+        var station = $(this).children('.station-tag').html();
+        var aid = $(this).attr('aid');
+        
+        $('#selected-name-mobile').html(name_mobile);
+        $('#selected-address').html(detail);
+        $('#selected-station').html(station);
+        $('input[name="address"]').val(aid);
+
+        $('.address-card-content').removeClass('address-selected');
+        $(this).addClass('address-selected');
+        $('#collapseOne').collapse('toggle')
+
+    });
 
 
 

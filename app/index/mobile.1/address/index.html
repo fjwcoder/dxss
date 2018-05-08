@@ -1,0 +1,95 @@
+<{extend name="./public/index"/}>
+<{block name="content"}>
+<style>
+    .list-empty-box{height: 300px; padding-top: 80px; color: #8e8e8e; background-color: #f0f0f0; text-align: center;}
+    .address-container{height: 1000px; padding-top: 50px; background-color: #f0f0f0;}
+    .address-foot-navbar .navbar-nav .nav-link{width: 100%; margin: 0 10%;}
+    .address-card{background-color: #fff; margin-top: 0.6rem; padding: 0 1rem;}
+    .address-card-content{min-height: 93.39px; overflow: hidden;  padding-top: 0.5rem;}
+    .address-card-item{min-height: 35.19px; border-top: 1px solid #e0e0e0; color: #8e8e8e; padding-top: 0.3rem;}
+    .address-card-content .address-name{font-size: 17px;}
+    .address-card-content .address-detail{color: #999; }
+    .address-card-item a{color: #999; }
+    .address-card-item .address-controller{float: right; margin-left: 1.5rem;}
+</style>
+
+<nav class="navbar address-navbar top-navbar navbar-expand-sm bg-light navbar-light fixed-top" onclick="navClick();" >
+
+  <a class="navbar-brand" href="javascript: history.go(-1);">
+      <span class="fa fa-angle-left fa-lg"></span>
+  </a>
+
+  <ul class="navbar-nav" style="flex-direction: row; width: 90%; display:table; text-align: center;">
+    <li class="nav-item " >
+      <a class="nav-link " href="javascript: void(0);" style="width: 90%;">
+        收货地址
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- 订单列表 -->
+<div class="container-fluid address-container">
+
+    <{if empty($address)}>
+        <div class="list-empty-box container-fluid" >
+            <span class="fa fa-file-text-o fa-3x"></span><br><br>
+            您还没有收货地址
+        </div>
+    <{else}>
+        <{volist name="$address" id="vo"}>
+            <div class="container-fluid address-card">
+                <div class="address-card-content">
+                  <span class="address-name"><{$vo.name}>&nbsp;&nbsp;<{$vo.mobile}></span>
+                  <br>
+                  <span class="address-detail"><{$vo.province}>&nbsp;<{$vo.city}>&nbsp;<{$vo.area}>
+                    &nbsp;&nbsp;<{$vo.address}>
+                    
+                  <br>
+                  <span class="address-detail pull-left  " ><{$vo.community}></span>
+                  <span class="address-detail pull-right  station-tag" ><{$vo.station}></span>
+                </div>
+                <div class="address-card-item " >
+                    <{if $vo.type == 1}> 
+                    <a href="javascript: void(0);">
+                        <span class="fa fa-check-circle" style="color: #19A97B;"></span>&nbsp;默认地址
+                    </a>
+                    
+                    <{else}>
+                    <a href="/index/address/setdefaultaddress?id=<{$vo.id}>">
+                        <span class="fa fa-circle-thin"></span>&nbsp;设为默认
+                    </a>
+                    
+                    <{/if}>
+                    
+                    
+                    <a class="address-controller" href="/index/address/deladdress?id=<{$vo.id}>">
+                        <span class="fa fa-trash-o"></span>&nbsp;删除
+                    </a>
+                    <a class="address-controller" href="/index/address/edit?id=<{$vo.id}>">
+                        <span class="fa fa-edit "></span>&nbsp;编辑
+                    </a>
+                </div>
+      
+            </div>
+        <{/volist}>
+        
+    <{/if}>
+
+    
+    
+
+</div>
+
+<nav class="navbar address-foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
+    <!--强制横向排列 竖向是：column-->
+    <ul class="navbar-nav" style="flex-direction: row; width: 85%;  display:table; text-align: center;">
+        <li class="nav-item">
+        <a class="nav-link main-submit-btn" href="/index/address/add">
+            <span class="fa fa-plus "></span>&nbsp;&nbsp;新建地址
+        </a>
+        </li>
+
+    </ul>
+</nav>
+<{/block}>

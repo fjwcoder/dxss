@@ -1,0 +1,125 @@
+<{extend name="./public/index"/}>
+<{block name="content"}>
+<style>
+  .fa{color: #8e8e8e;}
+  .order-card{ background-color: #fff; margin-top: 0.6rem;}
+  .order-card-item{height: 35.19px; width: 100%; padding: 0.4rem 0.8rem; font-size: 14px;}
+  .order-card-content{height: 70.39px; width: 100%; background-color: #f8f9fa; overflow: hidden;}
+  .order-card-bottom{border-top: 1px solid #f0f0f0;}
+  .order-shop-logo{color: #8e8e8e;}
+  .order-container{height: 100%; padding-top: 50px; background-color: #f0f0f0;}
+  .fa-trash-o{float: right; margin-top: 0.3rem; }
+  .order-card-content img{height: 100%; float: left; }
+  .order-card-content .content{padding-left: 1rem; overflow: hidden; float: left; width: 80%; margin-top: 3%; height: 70%;}
+  .circle-checked{ color: #19A97B;/*color:#0ff;*/}
+  .goods-foot-navbar{ padding: 0; }
+  .goods-foot-navbar .navbar-nav .nav-link{float: left; height: 50px; padding: 0; line-height: 50px;}
+</style>
+
+<nav class="navbar order-navbar  top-navbar navbar-expand-sm bg-light navbar-light fixed-top">
+
+  <a class="navbar-brand" href="javascript: history.go(-1);">
+      <span class="fa fa-angle-left fa-lg"></span>
+  </a>
+  <!-- Links -->
+  <ul class="navbar-nav" style="flex-direction: row; width: 90%; display:table; text-align: center;">
+    <!-- Dropdown -->
+    <li class="nav-item dropdown" >
+      <a class="nav-link dropdown-toggle" onclick="navClick();" href="#" id="navbardrop" data-toggle="dropdown" style="width: 90%;">
+        我的购物车
+      </a>
+      <div class="dropdown-menu order-dropdown-menu">
+          <a class="dropdown-item show" href="javascript: void(0);">我的购物车</a>
+        <!-- <a class="dropdown-item show" href="/index/cart/index?type=1">我的购物车</a> -->
+        <!-- <a class="dropdown-item show" href="/index/cart/index?type=2">过期产品</a> -->
+      </div>
+    </li>
+  </ul>
+</nav>
+
+
+
+<!-- 订单列表 -->
+<form method="post" role="form" action="/index/cart/orderPreview">
+  <div class="container-fluid order-container">
+
+      <{if empty($cart)}>
+          <div class="list-empty-box container-fluid" style="height: 300px; padding-top: 80px; color: #8e8e8e; background-color: #f0f0f0; text-align: center;">
+              <span class="fa fa-shopping-cart fa-3x"></span><br><br>
+              购物车空空如也~
+          </div>
+      <{else}>
+          
+          <div class="order-card container-fluid">
+            <div class="order-card-item">
+              <span class="fa fa-lg circle-check fa-circle-thin" cid="1" weight="2" money="2.20" ></span>&nbsp;&nbsp;&nbsp;顶鲜蔬蔬自营商城 
+              <input type="hidden" sid="1" name="cartList[]" value="0"/>
+              <a href="/index/cart/del?id=0 "><span class="fa fa-trash-o fa-lg"></span></a>
+            </div>
+            <div class="order-card-content order-card-item">
+              <img src="http://img11.360buyimg.com/n1/s450x450_jfs/t15700/288/1962206735/96329/ef344d13/5a694887Nb6fcff29.jpg"/>
+              <div class="content">
+                全球销量最多的车子就是卡罗拉
+              </div>
+            </div>
+            
+            <div class="order-card-item " >
+              价格：<span style="font-size: 18px; font-weight: 500;">¥2</span>/市斤
+              &nbsp;&nbsp;重量：<span style="font-size: 18px; font-weight: 500;">5.67</span>市斤
+            </div>
+            <div class="order-card-item order-card-bottom text-right">
+              总额：<span style="font-size: 18px; font-weight: 500;">¥2.20</span>
+            </div>
+          </div>
+          
+      <{/if}>
+  </div>
+
+  <!--底部-->
+  <nav class="navbar goods-foot-navbar navbar-expand-xl bg-light navbar-light fixed-bottom">
+    <!--强制横向排列 竖向是：column-->
+    <ul class="navbar-nav" style="flex-direction: row; width: 100%; display:table; text-align: center;">
+
+        <li class="nav-item" >
+        <a class="nav-link" style="width: 60%; color: #212529;" href="javascript:void(0)" >
+            总金额：¥ <span id="all-money" style="font-size: 20px; font-weight: 500;">0.00</span>
+            
+        </a>
+        </li>
+        <li class="nav-item" >
+        <input type="submit" onclick="return check();" class="nav-link main-submit-btn" value="结算" style="width: 40%;" />
+        </li>
+    </ul>
+  </nav>
+</form>
+<script>
+
+  $('.circle-check').click(function(){ // 反选ing
+    var id=$(this).attr('cid');
+    var totalmoney = parseFloat($('#all-money').html());
+    if($(this).hasClass('circle-checked')){ 
+      $(this).removeClass('circle-checked').removeClass('fa-check-circle').addClass('fa-circle-thin'); 
+      $("input[sid="+id+"]").val(0); 
+      totalmoney -= parseFloat($(this).attr('money'));
+    }else{ //选中ing
+      $(this).addClass('circle-checked').removeClass('fa-circle-thin').addClass('fa-check-circle');
+      $("input[sid="+id+"]").val(id);
+      totalmoney += parseFloat($(this).attr('money'));
+    }
+    $('#all-money').html( totalmoney.toFixed(2) );
+  });
+
+  function check(){
+    var totalmoney = parseFloat($('#all-money').html());
+    if(totalmoney == 0.00){
+      alert('没有选中商品');
+      return false;
+    }else{
+      $('form').submit();
+    }
+  }
+  
+  
+  
+</script>
+<{/block}>

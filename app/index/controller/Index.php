@@ -14,14 +14,14 @@ class Index extends controller
 {
     public function index(){
 
-        if(isMobile()){
+        // if(isMobile()){
             
             $this->assign('footer', ['status'=>true, 'name'=>'home']);
-            
+            $this->assign('config', ['page_title'=>'顶鲜蔬蔬']);
             return $this->fetch();
-        }else{
-            return $this->redirect('https://www.baidu.com');
-        }
+        // }else{
+            // return $this->redirect('https://www.baidu.com');
+        // }
         
     }
 

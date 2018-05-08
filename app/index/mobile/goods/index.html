@@ -4,12 +4,23 @@
 <style>
   .goods-nav-tabs .nav-item{width: 33.33%; float: left;}
   .goods-nav-tabs .nav-item a{color: #666!important; }
-  .fa{margin-top: 8px;}
+  .fa{margin-top: 8px; color:#6ad4c9;}
   .navbar{padding: 0.313rem 1rem;}
   .goods-tab-pane{padding: 0;}
   .goods-foot-navbar{ padding: 0; }
   .goods-foot-navbar .navbar-nav .nav-link{float: left; min-height: 50px; padding: 0; line-height: 50px;}
+  .goods-box{ background-color: #fff; }
+    .goods-box-item{min-height: 2.3rem; width: 100%; padding: 0.4rem 0.8rem; border: 0; font-size: 19px; line-height: 1.5rem;}
+    .goods-box-content{min-height: 3.4rem; width: 100%; overflow: hidden; font-size: 16px; line-height: 1.3rem; }
+    div.card .card-header{background-color: #fff; border: 0; padding: 0; height: 100%; width: 100%;}
+    .card-link{font-size: 1rem;}
+    .margin-top-0{margin-top: 0.5rem;}
 
+    .address-selected{border: 2px dashed #6ad4c9;}
+    .card-body{background:#e3e3e3;}
+    .address-card-content{min-height: 93.39px; overflow: hidden; background-color: #fff; padding: 0.5rem;}
+    .address-card-content .address-name{font-size: 17px;}
+    .address-card-content .address-detail{color: #999; }
 </style>
 <!-- Nav tabs -->
 <ul class="nav nav-tabs goods-nav-tabs fixed-top" role="tablist" style="flex-direction: row; width: 100%; display: table; text-align: center; background: #fff;">
@@ -26,14 +37,14 @@
 
 <!-- Tab panes -->
 
-<div class="tab-content" ><!--style="padding-top: 42px;"-->
+<div class="tab-content" style="padding-top: 42px;"><!---->
 
   <!--商品展示卡片-->
-  <div id="cardZero" class="container goods-tab-pane tab-pane active" style="background-color: #f0f0f0;">
+  <div id="cardZero" class="container goods-tab-pane tab-pane active" style="background-color: #f0f0f0; margin-bottom: 54px;">
     <!--banner区-->
     <div class="swiper-container goods-swiper-container" style="width: 100%;" >
         <div class="swiper-wrapper">
-            <{volist name="$goods.goods.pics" id="vo"}>
+            <{volist name="$goods.pics" id="vo"}>
                 <div class="swiper-slide">
                     <img src="<{$vo.pic}>">
                 </div>
@@ -43,36 +54,36 @@
     </div>
 
     <!--商品内容-->
-    <style>
-      .goods-card{ background-color: #fff; }
-      .goods-card-item{min-height: 2.3rem; width: 100%; padding: 0.4rem 0.8rem; border: 0; font-size: 19px; line-height: 1.5rem;}
-      .goods-card-content{min-height: 3.4rem; width: 100%; overflow: hidden; font-size: 16px; line-height: 1.3rem; }
-      div.card .card-header{background-color: #fff; border: 0; padding: 0; height: 100%; width: 100%;}
-      .card-link{font-size: 1rem;}
-      .margin-top-0{margin-top: 0.5rem;}
-    </style>
-    <div  class="goods-card container-fluid">
-      <div class="goods-card-item main-font-color">
+    <div  class="goods-box container-fluid">
+      <div class="goods-box-item main-font-color">
         <span class="business-tag" >顶鲜直营</span>
-        <span ><{$goods.goods.name}></span>
+        <span ><{$goods.name}></span>
       </div>
-      <div class="goods-card-content goods-card-item third-font-color" >
-            <{$goods.goods.sub_name}>
+      <div class="goods-box-content goods-box-item third-font-color" >
+            <{$goods.sub_name}>
       </div>
 
-      <div class="goods-card-item text-right main-bg-font-color " >
+      <div class="goods-box-item text-right main-bg-font-color " >
         <span class="fa fa-rmb fa-fw"></span>
-        <span style="font-size: 24px; " >5.25</span>
+        <span style="font-size: 24px; " >
+            <{if $goods.specs.0.price}>
+                <{$goods.specs.0.price/$goods.specs.0.weight}>
+            <{else}>
+                <{$goods.price}>
+            <{/if}>
+        </span>
         <span style="font-size: 16px;">/ 市斤</span>
       </div>
     </div>
     <div id="accordion" class="container-fluid margin-top-0" >
+        <!-- 规格 -->
+        <{if $spec_num > 1}>
       <div class=" card" style="border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0; padding-left: 0; padding-right: 0;">
           <div class="card-header" style="padding: 0.5rem 0.8rem;">
               <a onclick="clickDefaultSpec();" class="card-link second-font-color " data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
                 <span class="third-font-color">已选择</span>
                 <span id="spec-angle" class="fa fa-angle-right fa-fw fa-lg pull-right third-font-color " style="margin: 5px;" ></span>
-                <span class="pull-right main-font-color" ><{$goods.goods.specs.0.spec}></span>
+                <span class="pull-right main-font-color" ><{$goods.specs.0.spec}></span>
               </a>
           </div>
           <div id="collapseOne" class="collapse " style="width: 100%; background-color: #fff;">
@@ -81,38 +92,65 @@
               </div>
           </div>
       </div>
+      <{else}>
+        <div class=" card" style="border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0; padding-left: 0; padding-right: 0;">
+                <div class="card-header" style="padding: 0.5rem 0.8rem;">
+                    <span class="third-font-color pull-left">购买</span>
+                    <span class="text-right pull-right">
+                        <span id="number-sub" class="fa fa-minus fa-fw"></span>
+                        <input name="goods_weight" value="1" class="text-center" style="width: 60px; "/>
+                        <span id="number-sub" class="fa fa-plus fa-fw"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span style="font-size: 16px;">/ 市斤</span>
+                    </span>
+                    
+                </div>
+            </div>
+      <{/if}>
 
+      <!-- 配送地址 -->
       <div class=" card" style="border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0; padding-left: 0; padding-right: 0;">
           <div class="card-header" style="padding: 0.5rem 0.8rem;">
               <a onclick="clickDefaultAddress();" class="card-link second-font-color " data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
                 <span id="address-angle" class="fa fa-angle-right fa-fw fa-lg pull-right third-font-color " style="margin: 5px;" ></span>
-                <!--<span class="fa fa-truck fa-fw fa-lg third-font-color " style="margin-top: 5px;" ></span>-->
                 <span class=" main-font-color " >
-                  <span class="fa fa-map-marker"></span>
-                    山东潍坊奎文区新华路东城新海枫景    
+                    
+                    <span class="fa fa-map-marker">&nbsp;<small>可配送</small></span>
+                    <span id="selected-address" class="pull-right"><{$address.0.province}><{$address.0.city}><{$address.0.area}><{$address.0.address}></span>
                 </span>
               </a>
           </div>
           <div id="collapseTwo" class="collapse " style="width: 100%; background-color: #fff;">
-              <div class="card-body">
-              Lorem ipsum..
+              <div class="card-body" >
+                    <{volist name="$address" id="vo" key="index"}>
+                        <{if $index eq 1}>
+                        <div aid="<{$vo.id}>" class="address-card-content address-selected" >
+                        <{else}>
+                        <div aid="<{$vo.id}>" class="address-card-content" >
+                        <{/if}>
+                            <span class="address-name"><{$vo.name}>&nbsp;&nbsp;<{$vo.mobile}></span>
+                            <span class="address-detail pull-right"><{$vo.community}></span><br>
+                            <span class="address-detail address-detail-info"><{$vo.province}><{$vo.city}><{$vo.area}><{$vo.address}></span><br>
+                            <span class="address-detail pull-right station-tag"><{$vo.station}></span>
+                        </div>
+                    <{/volist}>
+                    
               </div>
           </div>
       </div>
     </div>
     
-    <div class="goods-card-item main-font-color" style="background-color: #fff;">
-        <span class="station-tag" >东城顶鲜驿站</span>
-        <span class="pull-right">重量：5市斤</span>
+    <div class="goods-box-item main-font-color" style="background-color: #fff;">
+        <span id="selected-station" class="station-tag" ><{$address.0.station}></span>
+        <!-- <span class="pull-right">重量：5市斤</span> -->
     </div>
-    <div class="goods-card-item second-font-color text-right" style="background-color: #fff; font-size: 16px;">
+    <div class="goods-box-item second-font-color text-right" style="background-color: #fff; font-size: 16px;">
         <!--<span  style="margin-right: 1rem;" >-->
-          18:00前下单，预计明天（03-04）送达
+          <{$shipping_time.day}><{$shipping_time.time}>前下单，预计<{$shipping_time.day}>（<{$shipping_time.date}>）送达
           <!--</span>-->
     </div>
-    <div class="goods-card-item second-font-color">
+    <!-- <div class="goods-box-item second-font-color">
         顶鲜驿站
-    </div>
+    </div> -->
   </div>
 
       
@@ -121,7 +159,7 @@
   
   <!--详情卡片-->
   <div id="cardOne" class="container goods-tab-pane tab-pane fade"><br>
-    <img src="http://static.runoob.com/images/mix/img_nature_wide.jpg">
+    <{$goods.detail}>
   </div>
   <!--评价卡片-->
   <div id="cardTwo" class="container goods-tab-pane tab-pane fade"><br>
@@ -137,21 +175,21 @@
   <ul class="navbar-nav" style="flex-direction: row; width: 100%; display:table; text-align: center;">
       <li class="nav-item" >
       <a class="nav-link " style="width: 15%;" href="javascript:void(0)">
-          <span class="fa fa-angle-left fa-2x"></span>
+          <span class="fa fa-heart-o fa-lg"></span>
       </a>
       </li>
       <li class="nav-item" >
-      <a class="nav-link" style="width: 25%;" href="javascript:void(0)">
+      <a class="nav-link" style="width: 25%;" href="/index/cart/index">
           <span class="fa fa-shopping-cart fa-lg"></span>
       </a>
       </li>
       <li class="nav-item" >
-      <a class="nav-link second-submit-btn" href="javascript:void(0)" style="width:30%; " >
+      <a id="add-cart-btn" class="nav-link  second-submit-btn" href="/index/cart/add" style="width:30%; " >
           加入购物车
       </a>
       </li>
       <li class="nav-item" >
-      <a class="nav-link main-submit-btn" href="javascript:void(0)" style="width:30%;" >
+      <a id="buy-now-btn" class="nav-link  main-submit-btn" href="/index/order/preview" style="width:30%;" >
           立即购买
       </a>
       </li>
@@ -159,34 +197,85 @@
 </nav>
 
 <script>
-  var mySwiper = new Swiper ('.goods-swiper-container', {
+    var goods = new Object();
+    goods = {
+        id: '<{$goods.id}>',
+        spec: '<{$goods.specs.0.id}>',
+        num: 1,
+        addr: '<{$address.0.id}>'
+    };
+    var cart_url = "/index/cart/add";//$('#add-cart-btn').attr('href');
+    var buy_url = "/index/order/preview";//$('#buy-now-btn').attr('href');
+    setUrl();
+  
 
-      autoplay: {
-        delay: 5000,
-        stopOnLastSlide: false,
-        disableOnInteraction: true,
-      },
-      loop: true,
-      // pagination: '.swiper-pagination',
-  });
-  var swiper_width = window.screen.width;
-  $('.swiper-wrapper .swiper-slide img').css({"height":swiper_width, "width": swiper_width});
+    function setUrl(){
+        // console.log(goods);
+        var prameter = '?gid='+goods.id+'&spec='+goods.spec+'&num='+goods.num+'&addr='+goods.addr;
+        $('#add-cart-btn').attr('href', cart_url+prameter);
+        $('#buy-now-btn').attr('href', buy_url+prameter);
+    }
 
-  function clickDefaultSpec(){
-    console.log('spec');
-      if($('#collapseOne').hasClass('show')){
-          $('#spec-angle').removeClass('fa-angle-down').addClass('fa-angle-right');
-      }else{
-          $('#spec-angle').removeClass('fa-angle-right').addClass('fa-angle-down');
-      }
-  }
-  function clickDefaultAddress(){
-    console.log('address');
-      if($('#collapseTwo').hasClass('show')){
-          $('#address-angle').removeClass('fa-angle-down').addClass('fa-angle-right');
-      }else{
-          $('#address-angle').removeClass('fa-angle-right').addClass('fa-angle-down');
-      }
-  }
+    var mySwiper = new Swiper ('.goods-swiper-container', {
+
+        autoplay: {
+            delay: 5000,
+            stopOnLastSlide: false,
+            disableOnInteraction: true,
+        },
+        loop: true,
+        // pagination: '.swiper-pagination',
+    });
+    var swiper_width = window.screen.width;
+    $('.swiper-wrapper .swiper-slide img').css({"height":swiper_width, "width": swiper_width});
+
+    function clickDefaultSpec(){
+        if($('#collapseOne').hasClass('show')){
+            $('#spec-angle').removeClass('fa-angle-down').addClass('fa-angle-right');
+        }else{
+            $('#spec-angle').removeClass('fa-angle-right').addClass('fa-angle-down');
+        }
+    }
+    function clickDefaultAddress(){
+        if($('#collapseTwo').hasClass('show')){
+            $('#address-angle').removeClass('fa-angle-down').addClass('fa-angle-right');
+        }else{
+            $('#address-angle').removeClass('fa-angle-right').addClass('fa-angle-down');
+        }
+    }
+
+    //选择收货地址
+    $('.address-card-content').click(function(){
+        var detail = $(this).children('.address-detail-info').html();
+        var station = $(this).children('.station-tag').html();
+        var aid = $(this).attr('aid');
+
+        $('.address-card-content').removeClass('address-selected');
+        $(this).addClass('address-selected');
+        $('#selected-address').html(detail);
+        $('#selected-station').html(station);
+        goods.addr = aid;
+        setUrl();
+        $('#collapseTwo').collapse('toggle')
+
+    });
+
+        // 商品数量减少
+    $('.fa-minus').click(function(){
+        var number = parseInt($('input[name="goods_weight"]').val());
+        if(number > 1){
+            goods.num -= 1;
+            $('input[name="goods_weight"]').val(goods.num);
+            setUrl();
+        }
+        
+    });
+    // 商品数量增加
+    $('.fa-plus').click(function(){
+        var number = parseInt($('input[name="goods_weight"]').val());
+        goods.num += 1;
+        $('input[name="goods_weight"]').val(goods.num);
+        setUrl();
+    });
 </script>
 <{/block}>

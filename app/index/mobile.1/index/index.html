@@ -1,0 +1,56 @@
+<{extend name="./public/index"/}>
+<{block name="content"}>
+<style>
+    .index-swiper-container .swiper-wrapper .swiper-slide img{  height: 192px; }
+</style>
+<div class="swiper-container index-swiper-container " style="width: 100%;" >
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <img src="http://static.runoob.com/images/mix/img_fjords_wide.jpg">
+        </div>
+        <div class="swiper-slide">
+            <img src="http://static.runoob.com/images/mix/img_nature_wide.jpg">
+        </div>
+        <div class="swiper-slide">
+            <img src="http://static.runoob.com/images/mix/img_mountains_wide.jpg">
+        </div>
+    </div>
+    <div class="swiper-pagination"></div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+
+//========================== start滑动监听 ====================================================
+var winPos = 0;
+$(window).scroll(function(event){
+    currentPos = $(window).scrollTop(); // 当前滑动位置 
+    if(currentPos > winPos){ // 上滑
+        $('#nav-head-navbar').fadeOut();
+    }else{ // 下滑
+        $('#nav-head-navbar').fadeIn();
+    }
+    winPos = currentPos;
+});
+//========================== end滑动监听 ====================================================
+
+
+var mySwiper = new Swiper ('.index-swiper-container', {
+
+    autoplay: {
+        delay: 5000,
+        stopOnLastSlide: false,
+        disableOnInteraction: true,
+    },
+    loop: true,
+    // pagination: '.swiper-pagination',
+});
+
+</script>
+<{/block}>
